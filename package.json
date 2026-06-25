@@ -7,15 +7,21 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.9",
     "@astrojs/mdx": "^7.0.0",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
+    "@pagefind/component-ui": "^1.5.2",
     "astro": "^7.0.2",
-    "sharp": "^0.34.3"
+    "sharp": "^0.34.3",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
   }
 }
