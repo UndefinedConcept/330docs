@@ -1,0 +1,6 @@
+.astro/
+dist/
+.output/
+node_modules/
+public/
+pagefind/

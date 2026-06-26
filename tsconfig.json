@@ -1,8 +1,16 @@
 {
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"],
+  "exclude": ["dist", ".output", "node_modules", "public", "pagefind"],
   "compilerOptions": {
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@src/*": ["./src/*"],
+      "@public/*": ["./public/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@styles/*": ["./src/styles/*"]
+    }
   }
 }

@@ -3,3 +3,5 @@
 
 export const SITE_TITLE = 'Astro Blog';
 export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const SITE_URL = 'https://undefinedconcept.github.io';
+export const SITE_BASE = '/330docs';
