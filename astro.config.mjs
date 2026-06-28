@@ -9,6 +9,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { SITE_BASE, SITE_URL } from './src/consts.ts';
 
 import expressiveCode from 'astro-expressive-code';
+import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,6 +20,7 @@ export default defineConfig({
     expressiveCode({
       // You can set configuration options here
       themes: ['material-theme-darker', 'github-light'],
+      useThemedScrollbars: true,
       styleOverrides: {
         // You can also override styles
         borderRadius: '0.5rem',
@@ -34,6 +36,7 @@ export default defineConfig({
       },
     }),
     mdx(),
+    icon()
   ],
 
   fonts: [
