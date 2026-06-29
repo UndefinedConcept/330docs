@@ -36,7 +36,7 @@ export default defineConfig({
       },
     }),
     mdx(),
-    icon()
+    icon(),
   ],
 
   fonts: [

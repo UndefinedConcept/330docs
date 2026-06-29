@@ -22,20 +22,20 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueO
         display: flex;
         flex-wrap: wrap;
         gap: 2rem;
-        list-style-type: none;
         margin: 0;
         padding: 0;
+        list-style-type: none;
       }
       ul li {
         width: calc(50% - 1rem);
       }
       ul li * {
-        text-decoration: none;
         transition: 0.2s ease;
+        text-decoration: none;
       }
       ul li:first-child {
-        width: 100%;
         margin-bottom: 1rem;
+        width: 100%;
         text-align: center;
       }
       ul li:first-child img {

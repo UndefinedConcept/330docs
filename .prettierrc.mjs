@@ -7,7 +7,12 @@ export default {
   trailingComma: 'es5',
   useTabs: false,
 
-  plugins: ['prettier-plugin-astro', 'prettier-plugin-organize-imports', 'prettier-plugin-tailwindcss'],
+  plugins: [
+    'prettier-plugin-astro',
+    'prettier-plugin-organize-imports',
+    'prettier-plugin-tailwindcss',
+    'prettier-plugin-css-order',
+  ],
 
   overrides: [{ files: '*.astro', options: { parser: 'astro' } }],
 };
