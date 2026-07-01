@@ -1,15 +1,17 @@
 // @ts-check
 
+import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 import path from 'path';
 
-import tailwindcss from '@tailwindcss/vite';
-import { SITE_BASE, SITE_URL } from './src/consts.ts';
-
 import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
+
+import tailwindcss from '@tailwindcss/vite';
+import { SITE_BASE, SITE_URL } from './src/consts.ts';
+import remarkCustomBlockquotes from './src/utils/remark-custom-blockquotes.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -38,6 +40,12 @@ export default defineConfig({
     mdx(),
     icon(),
   ],
+
+  markdown: {
+    processor: unified({
+      remarkPlugins: [remarkCustomBlockquotes],
+    }),
+  },
 
   fonts: [
     {
