@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This module defines a custom remark plugin for processing blockquotes in Markdown files.
+ * @usage Converts [!{tag}] => <data-blockquote-type={tag} .
+ */
 import type { Blockquote, Paragraph, Root, Text } from 'mdast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
@@ -22,7 +26,7 @@ export const remarkCustomBlockquotes: Plugin<[], Root> = () => {
       const match = textValue.match(/^\[!(NOTE|TIP|WARNING)\]\s*(.*)/i);
 
       if (match) {
-        const type = match[1].toLowerCase();
+        const type = match[1];
         const remainingText = match[2];
 
         // Clean up text within mdast safely

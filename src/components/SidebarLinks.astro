@@ -1,0 +1,38 @@
+---
+// Helper for [Sidebar.astro](src/components/Sidebar.astro) to render a tree of links for the sidebar navigation.
+import type { TreeNode } from '@src/utils/navigation';
+
+const { nodes } = Astro.props as { nodes: TreeNode[] };
+---
+{nodes.map((node) => {
+  if ('children' in node) {
+    return (
+      <details open>
+        <summary class="font-bold">{node.title}</summary>
+        <ul class="pl-2 ml-1.25 border-l border-border ">
+          <Astro.self nodes={node.children} />
+        </ul>
+      </details>
+    );
+  }
+  
+  return (
+    <li class="nav-item">
+      <a 
+        href={node.href}
+        aria-current={Astro.url.pathname === node.href ? "page" : undefined}
+      >{node.title}</a>
+    </li>
+  );
+})}
+
+<style>
+  
+  li.nav-item:has(a[aria-current="page"]) {
+    margin-left: -0.5rem;
+    border-left: 2px solid var(--color-primary);
+    padding-left: 0.375rem;
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+</style>

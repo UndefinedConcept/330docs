@@ -10,7 +10,11 @@
       "@public/*": ["./public/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
-      "@styles/*": ["./src/styles/*"]
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@consts": ["./src/consts.ts"],
+      "@types": ["./src/types.d.ts"],
+      "@content": ["./src/content.config.ts"]
     }
   }
 }

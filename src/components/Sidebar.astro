@@ -1,0 +1,12 @@
+---
+import { docsTree } from '@utils/navigation';
+import SidebarLinks from '@components/SidebarLinks.astro';
+
+---
+<aside id="sidebar-nav">
+  <nav aria-label="Docs navigation">
+    <ul>
+      <SidebarLinks nodes={docsTree}/>
+    </ul>
+  </nav>
+</aside>
