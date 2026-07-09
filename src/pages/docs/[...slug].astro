@@ -4,10 +4,15 @@ import Layout from '@src/layouts/DocsPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('docs');
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: post,
-  }));
+  return posts
+    .filter((post) =>
+      // Filter out draft posts and _index pages
+      post.data.draft !== true && !post.id.endsWith('/_index')
+    )
+    .map((post) => ({
+      params: { slug: post.id },
+      props: post,
+    }));
 }
 type Props = CollectionEntry<'docs'>;
 

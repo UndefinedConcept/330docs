@@ -10,11 +10,11 @@ const docs = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
-      // Transform string to Date object
+      category: z.string(),
       pubDate: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
       heroImage: z.optional(image()),
-    }),
+      draft: z.optional(z.boolean()), // `_index.md` files AKA directory nodes should have "draft: true"
+    })
 });
 
 export const collections = { docs };

@@ -1,9 +1,6 @@
 /**
  * @fileoverview Generates a hierarchical tree structure from a flat list of documentation links for use in the sidebar navigation.
- * @usage import { type TreeNode, docsTree, docsList } from '@utils/navigation';
- * - TreeNode = Type definition for nodes in the tree structure.
- * - docsTree:TreeNode = A tree structure representing the hierarchy of documentation links.
- * - docsList:TreeNode = A flat list of all documentation links for easy access.
+ * @usage import { type MapNode, docsMap: Record<string, Record<string, MapNode[]>>, getDirectoryPath } from '@utils/navigation';
  */
 import { SITE_BASE } from '@src/consts';
 import { getCollection } from 'astro:content';
@@ -11,10 +8,17 @@ import { getCollection } from 'astro:content';
 interface SidebarLink {
   href: string;
   title: string;
-  segments: string[];
+  category: string;
 }
 
-export type TreeNode = { title: string; href: string } | { title: string; children: TreeNode[] };
+export type MapNode = 
+  | { title: string; href: string; mapString?: never }
+  | { title: string; mapString: string; href?: never };
+
+export function getDirectoryPath(href: string): string {
+  const lastSlashIndex = href.lastIndexOf('/');
+  return href.substring(0, lastSlashIndex);
+}
 
 // Get all posts from the 'docs' collection, sort them by publication date, and map them to SidebarLink objects
 const posts: SidebarLink[] = (await getCollection('docs'))
@@ -22,54 +26,49 @@ const posts: SidebarLink[] = (await getCollection('docs'))
   .map((post) => ({
     href: `${SITE_BASE}/docs/${post.id}`,
     title: post.data.title,
-    segments: post.id.split('/'),
-  }));
+    category: post.data.category,
+  }))
 
-/** @description Build a tree structure from the flat list of links */
-function buildTree(nodes: SidebarLink[]): TreeNode[] {
-  const tree: TreeNode[] = [];
-  const map: Record<string, TreeNode> = {};
 
-  for (const link of nodes) {
-    const segments = link.segments;
-    let currentLevel = tree;
-
-    for (let i = 0; i < segments.length; i++) {
-      const segment = segments[i];
-      const isLastSegment = i === segments.length - 1;
-
-      if (!map[segment]) {
-        const newNode: TreeNode = isLastSegment
-          ? { title: link.title, href: link.href }
-          : { title: segment, children: [] };
-
-        map[segment] = newNode;
-        currentLevel.push(newNode);
-      }
-
-      if (!isLastSegment) {
-        currentLevel = (map[segment] as { children: TreeNode[] }).children;
-      }
+/** 
+ * @description builds a directory map of a categorized tree structure from a flat list of documentation links
+ * 1. Group by node.directory (use getDirectoryPath(node.href) to get it)
+ *   a. If node end with '_index' (should be a .md file), then it is a directory node (points to a directory)
+ *   b. If node does not end with '_index', then it is a leaf node (just a link)
+ * 2. Categorize by the node.category for each directory node and leaf node 
+ * */
+function buildMap(nodes: SidebarLink[]): Record<string, Record<string, MapNode[]>> {
+  function addToMap(path: string, category: string, node: MapNode) {
+    if (!map[path]) {
+      map[path] = {};
     }
+    if (!map[path][category]) {
+      map[path][category] = [];
+    }
+    map[path][category].push(node);
   }
-  return tree;
-}
 
-/** @description Flatten the tree structure into a flat list of links */
-function flattenTree(nodes: TreeNode[]): TreeNode[] {
-  const result: TreeNode[] = [];
-
+  // Initialize the map with a base directory (for the default nav menu)
+  const map: Record<string, Record<string, MapNode[]>> = {};
   for (const node of nodes) {
-    if ('href' in node) {
-      result.push({ href: node.href, title: node.title });
-    } else if ('children' in node) {
-      result.push(...flattenTree(node.children));
+    if (node.href.endsWith('/_index')) {
+      // If it's a directory node, add it to the map with its title and href
+      const directoryPath = getDirectoryPath(node.href.substring(0, node.href.length - 7));
+      addToMap(directoryPath, node.category, { title: node.title, mapString: getDirectoryPath(node.href) });
+    } else {
+      // If it's a leaf node, add it to the map with its title and href
+      const directoryPath = getDirectoryPath(node.href);
+      addToMap(directoryPath, node.category, { title: node.title, href: node.href });
     }
   }
 
-  return result;
+  // Sort by directory name (key) and organized by category (value) for each directory node and leaf node
+  const sortedMap: Record<string, Record<string, MapNode[]>> = {};
+  for (const directory of Object.keys(map).sort()) {
+    sortedMap[directory] = map[directory];
+  }
+  return sortedMap;
 }
 
 // Export the tree structure for use in other parts of the application
-export const docsTree = buildTree(posts);
-export const docsList = flattenTree(docsTree);
+export const docsMap = buildMap(posts);

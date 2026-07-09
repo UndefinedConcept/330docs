@@ -2,7 +2,7 @@
 import BaseHead from '@components/BaseHead.astro';
 import Header from '@components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '@src/consts';
-// import { docsTree } from '@src/utils/navigation';
+import { docsMap } from '@src/utils/navigation';
 ---
 
 <!doctype html>
@@ -13,9 +13,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@src/consts';
   <body>
     <Header />
     <main>
-      <section>
-        
-      </section>
+      <pre><code>{JSON.stringify(docsMap, null, 2)}</code></pre>
     </main>
   </body>
 </html>
