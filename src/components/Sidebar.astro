@@ -1,12 +1,44 @@
 ---
 import { docsTree } from '@utils/navigation';
 import SidebarLinks from '@components/SidebarLinks.astro';
-
 ---
-<aside id="sidebar-nav">
+
+<aside id="sidebar-nav" transition:persist="sidebar-nav" transition:animate="none">
   <nav aria-label="Docs navigation">
     <ul>
-      <SidebarLinks nodes={docsTree}/>
+      <SidebarLinks nodes={docsTree} />
     </ul>
   </nav>
 </aside>
+
+<script data-astro-rerun>
+  function normalizePath(path) {
+    const trimmed = path.replace(/\/+$/, '');
+    return trimmed || '/';
+  }
+
+  function updateActiveLink() {
+    const nav = document.getElementById('sidebar-nav');
+    if (!nav) return;
+
+    const currentPath = normalizePath(window.location.pathname);
+    const currentActive = nav.querySelector('a[aria-current="page"]');
+    const currentLink = Array.from(nav.querySelectorAll('a[href]')).find((link) => {
+      const href = link.getAttribute('href');
+      if (!href) return false;
+
+      const linkPath = normalizePath(new URL(href, window.location.origin).pathname);
+      return linkPath === currentPath;
+    });
+
+    if (!currentLink) return;
+
+    if (currentActive === currentLink) return;
+
+    currentActive?.removeAttribute('aria-current');
+
+    currentLink.setAttribute('aria-current', 'page');
+  }
+
+  updateActiveLink();
+</script>

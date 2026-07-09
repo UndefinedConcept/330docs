@@ -12,7 +12,7 @@ const { title, description, heroImage } = Astro.props;
     <slot name="head" />
   </head>
 
-  <body>
+  <body transition:animate="none">
     <Header />
     <slot />
   </body>
