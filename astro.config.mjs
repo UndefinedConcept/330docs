@@ -20,14 +20,10 @@ export default defineConfig({
   integrations: [
     sitemap(),
     expressiveCode({
-      // You can set configuration options here
-      themes: ['material-theme-darker', 'github-light'],
-      useThemedScrollbars: true,
-      styleOverrides: {
-        // You can also override styles
-        borderRadius: '0.5rem',
-        frames: {},
-      },
+      // If you change themes, make sure to delete the `./astro` to clear the cache
+      themes: ['light-plus', 'dark-plus'],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) => (theme.type === 'dark' ? '.dark' : false),
       defaultProps: {
         // Enable word wrap by default
         wrap: true,

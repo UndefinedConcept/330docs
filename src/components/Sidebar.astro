@@ -14,10 +14,13 @@ const state = (directory: string) => {
   return undefined;
 };
 ---
-<aside id="sidebar-nav">
+
+<aside id="sidebar" class="">
   <nav aria-label="Docs navigation">
-    {Object.entries(docsMap).map(([directory, categories]) => (
-      <SidebarPanel directory={directory} categories={categories} state={state(directory)} />
-    ))}
+    {
+      Object.entries(docsMap).map(([directory, categories]) => (
+        <SidebarPanel directory={directory} categories={categories} state={state(directory)} />
+      ))
+    }
   </nav>
 </aside>

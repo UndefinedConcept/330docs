@@ -1,0 +1,114 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<!-- Trigger workaround until pagefind supports custom triggers -->
+<div class="flex">
+  <button id="custom-pagefind-trigger" class="cursor-pointer">
+    <Icon name="mingcute:search-2-line" />
+  </button>
+  <div class="hidden">
+    <pagefind-modal-trigger shortcut="/"></pagefind-modal-trigger>
+  </div>
+
+  <pagefind-modal>
+    <pagefind-modal-header>
+      <pagefind-input></pagefind-input>
+    </pagefind-modal-header>
+    <pagefind-modal-body>
+      <pagefind-summary></pagefind-summary>
+      <pagefind-results></pagefind-results>
+    </pagefind-modal-body>
+    <pagefind-modal-footer>
+      <pagefind-keyboard-hints></pagefind-keyboard-hints>
+    </pagefind-modal-footer>
+  </pagefind-modal>
+</div>
+
+<script>
+  // Opening pagefind modal via custom trigger button
+  const searchTrigger = document.getElementById('custom-pagefind-trigger');
+  if (searchTrigger) {
+    const searchShortcut = new KeyboardEvent('keydown', {
+      key: '/',
+      code: 'Slash',
+      keyCode: 191,
+      which: 191,
+    });
+    searchTrigger.addEventListener('click', () => {
+      // Trigger keyboard shortcut for pagefind modal
+      console.log('Open search');
+      document.dispatchEvent(searchShortcut);
+    });
+  }
+</script>
+
+<style>
+  :root {
+    /* Pagefind customizations */
+    --pf-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --pf-text: var(--color-text-bright);
+    --pf-text-secondary: var(--color-text);
+    --pf-text-muted: var(--color-text-muted);
+    --pf-background: var(--color-background);
+    --pf-border: var(--color-border);
+    --pf-border-focus: var(--color-link);
+    --pf-skeleton: var(--color-background);
+    --pf-skeleton-shine: var(--color-background-alt);
+    --pf-hover: var(--color-background-alt);
+    --pf-mark: var(--color-text-bright);
+    --pf-outline-focus: var(--color-link-hover);
+    --pf-scroll-shadow: var(--color-text);
+    --pf-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+    --pf-error-bg: var(--color-background);
+    --pf-error-border: var(--color-error);
+    --pf-error-text: var(--color-error);
+    --pf-error-text-secondary: var(--color-text)/90;
+  }
+
+  /* 
+  * !important to override :is(*, #\# ) ID-selector specificity hack from pagefind
+  * The #\# is an escaped # character, creating an invalid-but-harmless ID
+  * selector that never matches, but still contributes specificity via :is(). 
+  */
+
+  pagefind-modal-header {
+    --pf-hover: var(--color-background) !important;
+    padding: 0.5rem 1rem !important;
+
+    .pf-input-wrapper::before {
+      left: 0.5rem !important;
+      width: 1rem !important;
+      height: 1rem !important;
+    }
+
+    /* Search input focus styles */
+    search input:focus-visible,
+    search input:focus {
+      outline: 4px solid var(--color-background) !important;
+      outline-offset: -1px !important;
+    }
+
+    :has(search input:focus-visible) .pf-input-wrapper::before,
+    :has(search input:focus-visible) .pf-searchbox-input-wrapper::before {
+      --pf-text-muted: var(--color-link) !important;
+    }
+
+    &:has(search input:focus) {
+      border-bottom: 1px solid var(--color-link) !important;
+    }
+
+    /* Modal close button styles */
+    .pf-modal-close:hover {
+      color: var(--color-error) !important;
+    }
+  }
+
+  pagefind-modal-body {
+    div.pf-result-card:has(.pf-result-link:focus-visible) {
+      background-color: var(--color-background-alt) !important;
+    }
+  }
+</style>

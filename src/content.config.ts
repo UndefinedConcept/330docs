@@ -14,7 +14,7 @@ const docs = defineCollection({
       pubDate: z.coerce.date(),
       heroImage: z.optional(image()),
       draft: z.optional(z.boolean()), // `_index.md` files AKA directory nodes should have "draft: true"
-    })
+    }),
 });
 
 export const collections = { docs };

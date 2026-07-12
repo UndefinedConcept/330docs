@@ -11,9 +11,8 @@ interface SidebarLink {
   category: string;
 }
 
-export type MapNode = 
-  | { title: string; href: string; mapString?: never }
-  | { title: string; mapString: string; href?: never };
+export type MapNode =
+  { title: string; href: string; mapString?: never } | { title: string; mapString: string; href?: never };
 
 export function getDirectoryPath(href: string): string {
   const lastSlashIndex = href.lastIndexOf('/');
@@ -27,15 +26,14 @@ const posts: SidebarLink[] = (await getCollection('docs'))
     href: `${SITE_BASE}/docs/${post.id}`,
     title: post.data.title,
     category: post.data.category,
-  }))
+  }));
 
-
-/** 
+/**
  * @description builds a directory map of a categorized tree structure from a flat list of documentation links
  * 1. Group by node.directory (use getDirectoryPath(node.href) to get it)
  *   a. If node end with '_index' (should be a .md file), then it is a directory node (points to a directory)
  *   b. If node does not end with '_index', then it is a leaf node (just a link)
- * 2. Categorize by the node.category for each directory node and leaf node 
+ * 2. Categorize by the node.category for each directory node and leaf node
  * */
 function buildMap(nodes: SidebarLink[]): Record<string, Record<string, MapNode[]>> {
   function addToMap(path: string, category: string, node: MapNode) {

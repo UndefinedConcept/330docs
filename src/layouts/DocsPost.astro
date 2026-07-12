@@ -6,71 +6,18 @@ import Sidebar from '@components/Sidebar.astro';
 
 type Props = CollectionEntry<'docs'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, heroImage } = Astro.props;
 ---
 
 <Layout title={title} description={description} heroImage={heroImage} pagefind={true}>
-  <div class="docs-shell">
-    <Sidebar />
-    <main class="docs-content">
-      <article class="prose">
-        <div class="title">
-          <div class="date">
-            <FormattedDate date={pubDate} />
-            {
-              updatedDate && (
-                <div class="last-updated-on">
-                  Last updated on <FormattedDate date={updatedDate} />
-                </div>
-              )
-            }
-          </div>
-          <h1>{title}</h1>
-        </div>
-        <slot />
-      </article>
-    </main>
-  </div>
+  <Sidebar />
+  <main class="main-content">
+    <article class="prose" data-pagefind-body>
+      <div class="title">
+        <FormattedDate date={pubDate} />
+        <h1>{title}</h1>
+      </div>
+      <slot />
+    </article>
+  </main>
 </Layout>
-
-
-<style>
-  .docs-shell {
-    display: grid;
-    grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
-    align-items: start;
-    gap: 2rem;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-    max-width: 1200px;
-  }
-
-  .docs-content {
-    min-width: 0;
-  }
-
-  .title {
-    margin-bottom: 2rem;
-  }
-
-  .date {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem 1rem;
-    margin-bottom: 0.75rem;
-    color: var(--muted-foreground);
-    font-size: 0.95rem;
-  }
-
-  .last-updated-on {
-    color: var(--muted-foreground);
-  }
-
-  @media (max-width: 900px) {
-    .docs-shell {
-      grid-template-columns: 1fr;
-      padding-inline: 1rem;
-    }
-  }
-</style>
