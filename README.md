@@ -4,8 +4,6 @@
 npm create astro@latest -- --template docs
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
 Features:
 
 - ✅ Minimal styling (make it your own!)
