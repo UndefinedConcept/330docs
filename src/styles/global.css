@@ -118,7 +118,7 @@ Global Base Layer ==============================================
     @apply mb-4;
   }
 
-  :not(pre)>code {
+  :not(pre) > code {
     @apply bg-background-code text-text-muted px-1 py-0.5 rounded-sm;
   }
 
@@ -169,10 +169,10 @@ Global Base Layer ==============================================
     .main-content {
       margin-left: 0;
       padding: var(--spacing-lg) calc(var(--spacing-xl) * 2);
-      
+
       .prose {
-        max-width: var(--content-max-width);
         margin-left: 0;
+        max-width: var(--content-max-width);
       }
     }
   }

@@ -7,25 +7,23 @@ const { directory, categories, state } = Astro.props as {
   state: boolean | undefined;
 };
 ---
+
 <div class="sidebar-panel">
   <h3>{directory} {state === true ? '(current)' : state === false ? '(prev)' : '(hidden)'}</h3>
   <ul>
-    {Object.entries(categories).map(([category, nodes]) => (
-      <li>
-        <strong>{category}</strong>
-        <ul>
-          {nodes.map((node) => (
-            <li>
-              {node.href ? (
-                <a href={node.href}>{node.title}</a>
-              ) : (
-                <input type="checkbox" id={node.mapString} />
-                <label for={node.mapString}>{node.title}</label>
-              )}
-            </li>
-          ))}
-        </ul>
-      </li>
-    ))}
+    {
+      Object.entries(categories).map(([category, nodes]) => (
+        <li>
+          <strong>{category}</strong>
+          <ul>
+            {nodes.map((node) => (
+              <li>
+                {node.href ? <a href={node.href}>{node.title}</a> : <label for={node.mapString}>{node.title}</label>}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
   </ul>
 </div>
