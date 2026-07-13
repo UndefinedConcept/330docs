@@ -14,5 +14,5 @@ export default {
     'prettier-plugin-css-order',
   ],
 
-  overrides: [{ files: '*.astro', options: { parser: 'astro' } }],
+  overrides: [{ files: '*.astro', options: { parser: 'astro' }, printWidth: 1200, }],
 };
