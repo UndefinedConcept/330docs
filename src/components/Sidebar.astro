@@ -1,13 +1,21 @@
 ---
+import { SITE_TITLE, SITE_BASE } from '@src/consts';
+import { Icon } from 'astro-icon/components';
+
+import Search from '@components/Search.astro';
+import ThemeToggle from '@components/ThemeToggle.astro';
+import Github from '@components/Github.astro';
+
 import { docsMap, getDirectoryPath } from '@utils/navigation';
 import SidebarPanel from '@components/SidebarPanel.astro';
-console.log('pathname: ', Astro.url.pathname);
 
 // state is false if pathname starts with the directory
 // state is true if pathname is the directory
 // state is undefined otherwise
+const currentURL = Astro.url.pathname;
 const state = (directory: string) => {
-  const pathname = getDirectoryPath(Astro.url.pathname);
+  // console.log(directory); // Uncomment this line get directories
+  const pathname = getDirectoryPath(currentURL);
   if (pathname.startsWith(directory)) {
     return pathname === directory ? true : false;
   }
@@ -15,12 +23,61 @@ const state = (directory: string) => {
 };
 ---
 
-<aside id="sidebar" class="">
-  <nav aria-label="Docs navigation">
-    {
-      Object.entries(docsMap).map(([directory, categories]) => (
-        <SidebarPanel directory={directory} categories={categories} state={state(directory)} />
-      ))
-    }
-  </nav>
+<aside
+  class="sidebar border-border bg-background fixed z-20 flex h-full w-(--sidebar-width) flex-col gap-4 overflow-hidden border-r px-4"
+>
+  <div class="sidebar-header flex items-center justify-between pt-6">
+    <a href={`${SITE_BASE}/`} class="text-foreground text-xl leading-none font-bold tracking-tight no-underline">
+      {SITE_TITLE}
+    </a>
+    <div class="flex gap-2 text-2xl">
+      <Github class="text-text hover:text-link-hover" />
+      <ThemeToggle />
+    </div>
+  </div>
+
+  <div class="sidebar-search">
+    <Search>
+      <button id="custom-pagefind-trigger" class="cursor-pointer text-2xl md:hidden" aria-label="search">
+        <Icon name="mingcute:search-2-line" />
+      </button>
+      <div class="hidden grow md:flex">
+        <pagefind-modal-trigger shortcut="/"></pagefind-modal-trigger>
+      </div>
+    </Search>
+  </div>
+
+  <div class="sidebar-nav h-full text-sm">
+    <button
+      class="text-text hover:text-link-hover text-2xl max-md:hidden"
+      popovertarget="sidebar-nav-panels"
+      aria-label="Toggle menu"
+    >
+      <Icon name="mingcute:menu-line" />
+    </button>
+    <nav class="sidebar-nav-panels relative block h-full overflow-hidden" aria-label="Docs navigation">
+      {
+        docsMap.map((navMap) => (
+          <SidebarPanel
+            title={navMap.title}
+            directory={navMap.href}
+            categories={navMap.items}
+            state={state(navMap.href)}
+          />
+        ))
+      }
+    </nav>
+  </div>
 </aside>
+
+<script>
+  // add active on pageload
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav-panels a') as NodeListOf<HTMLAnchorElement>;
+
+  // Loop through the selected links
+  sidebarLinks.forEach((link) => {
+    if (link.href === window.location.href) {
+      link.setAttribute('aria-current', 'page');
+    }
+  });
+</script>

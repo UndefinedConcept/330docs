@@ -11,7 +11,7 @@ const { title, description, pubDate, heroImage } = Astro.props;
 
 <Layout title={title} description={description} heroImage={heroImage} pagefind={true}>
   <Sidebar />
-  <main class="main-content">
+  <main class="p-6 md:ml-(--sidebar-width) md:px-8">
     <article class="prose" data-pagefind-body>
       <div class="title">
         <FormattedDate date={pubDate} />
@@ -19,5 +19,6 @@ const { title, description, pubDate, heroImage } = Astro.props;
       </div>
       <slot />
     </article>
+    <aside class="toc-aside"></aside>
   </main>
 </Layout>

@@ -1,19 +1,17 @@
 ---
 import { SITE_TITLE, SITE_BASE } from '@src/consts';
-import { Icon } from 'astro-icon/components';
 import Search from '@components/Search.astro';
 import ThemeToggle from '@components/ThemeToggle.astro';
 ---
 
-<header class="border-border flex items-center justify-between border-b px-6 py-4 text-2xl">
-  <a href={`${SITE_BASE}/`} class="text-foreground leading-none font-bold tracking-tight no-underline">
+<header class="border-border flex items-center justify-between border-b px-6 py-4">
+  <a href={`${SITE_BASE}/`} class="text-foreground text-xl leading-none font-bold tracking-tight no-underline">
     {SITE_TITLE}
   </a>
-  <div class="flex gap-2">
+  <div class="flex gap-2 text-2xl">
     <!-- theme toggle -->
     <ThemeToggle />
     <!-- navigation options -->
     <Search />
-    <Icon name="mingcute:menu-line" />
   </div>
 </header>

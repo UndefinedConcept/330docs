@@ -2,7 +2,7 @@
 import BaseHead from '@components/BaseHead.astro';
 import Header from '@components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '@src/consts';
-import { docsMap } from '@src/utils/navigation';
+// import { docsMap } from '@src/utils/navigation';
 ---
 
 <!doctype html>
@@ -12,8 +12,105 @@ import { docsMap } from '@src/utils/navigation';
   </head>
   <body>
     <Header />
-    <main>
-      <pre><code>{JSON.stringify(docsMap, null, 2)}</code></pre>
-    </main>
+    <!-- checkbox demo -->
+    <container>
+      <!-- data-state: 0 = Hidden/Next (Right), 1 = Active (Center), 2 = Past (Left) -->
+      <div class="panel" id="panel-1" data-state="1">
+        <button class="toggle-panel" data-target="panel-2">Go to Panel 2</button>
+      </div>
+
+      <div class="panel" id="panel-2" data-state="0">
+        <button class="toggle-panel" data-target="panel-1">Back to Panel 1</button>
+        <button class="toggle-panel" data-target="panel-3">Go to Panel 3</button>
+        <button class="toggle-panel" data-target="panel-4">Go to Panel 4</button>
+        <button class="toggle-panel" data-target="panel-5">Go to Panel 5</button>
+      </div>
+
+      <div class="panel" id="panel-3" data-state="0">
+        <button class="toggle-panel" data-target="panel-2">Back to Panel 2</button>
+      </div>
+      <div class="panel" id="panel-4" data-state="0">
+        <button class="toggle-panel" data-target="panel-2">Back to Panel 2</button>
+      </div>
+      <div class="panel" id="panel-5" data-state="0">
+        <button class="toggle-panel" data-target="panel-2">Back to Panel 2</button>
+      </div>
+    </container>
+    <style>
+      /* Parent wrapper must be relative to contain the absolute children */
+      container {
+        display: block;
+        position: relative;
+        background-color: #f0f0f0; /* Optional: for visual clarity */
+        width: 200px; /* Adjust width based on your layout needs */
+        height: 400px; /* Adjust height based on your layout needs */
+        overflow: hidden; /* Hides the off-screen panels */
+      }
+
+      /* Base styles for all sliding panels */
+      .panel {
+        position: absolute;
+        transition: transform 0.7s;
+        margin: 0;
+        inset: 0;
+      }
+
+      /* STATE 1: Active / Current Panel (Centered) */
+      .panel[data-state='1'] {
+        transform: translateX(0);
+      }
+
+      /* STATE 2: Past Panel (Shifted Left) */
+      .panel[data-state='2'] {
+        transform: translateX(-100%);
+      }
+
+      /* STATE 0: Hidden / Next Panel (Shifted Right) */
+      .panel[data-state='0'] {
+        transform: translateX(100%);
+      }
+
+      @keyframes disablePointerEvents {
+        0% {
+          pointer-events: auto;
+        }
+        99% {
+          pointer-events: none;
+        }
+        100% {
+          pointer-events: auto;
+        }
+      }
+    </style>
+    <script>
+      let isThrottled = false;
+      const toggleButtons = document.querySelectorAll<HTMLButtonElement>('.toggle-panel');
+      toggleButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          if (isThrottled) return;
+
+          const currentPanel = button.closest('.panel') as HTMLElement;
+          const targetPanelId = button.getAttribute('data-target');
+          if (!currentPanel || !targetPanelId) return;
+          const targetPanel = document.getElementById(targetPanelId) as HTMLElement;
+          if (!targetPanel) {
+            console.error(`Target panel with ID "${targetPanelId}" not found.`);
+            return;
+          }
+          isThrottled = true;
+
+          // Update states
+          const parentState = parseInt(currentPanel.dataset.state || '0');
+          const nextState = parseInt(targetPanel.dataset.state || '0');
+          const isNext = nextState < parentState;
+          currentPanel.dataset.state = isNext ? '2' : '0';
+          targetPanel.dataset.state = '1';
+
+          setTimeout(() => {
+            isThrottled = false;
+          }, 700);
+        });
+      });
+    </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 ---
-title: 'Test'
-description: 'Lorem ipsum dolor sit amet'
+title: 'Second'
+description: ''
 category: 'Posts'
 pubDate: 'Jul 22 2022'
 ---

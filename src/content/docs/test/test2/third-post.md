@@ -1,7 +1,7 @@
 ---
 title: 'Third post'
 description: 'Lorem ipsum dolor sit amet'
-category: 'Test'
+category: 'Test2'
 pubDate: 'Jul 20 2022'
 heroImage: '@assets/placeholder-3.jpg'
 ---

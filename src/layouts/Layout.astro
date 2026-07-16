@@ -1,6 +1,5 @@
 ---
 import BaseHead from '@components/BaseHead.astro';
-import Header from '@components/Header.astro';
 
 const { title, description, heroImage } = Astro.props;
 ---
@@ -10,10 +9,29 @@ const { title, description, heroImage } = Astro.props;
   <head>
     <BaseHead title={title} description={description} image={heroImage} />
     <slot name="head" />
+    <script>
+      const theme = (() => {
+        const localStorageTheme = localStorage?.getItem('theme') ?? '';
+        if (['dark', 'light'].includes(localStorageTheme)) {
+          return localStorageTheme;
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+
+      window.localStorage.setItem('theme', theme);
+    </script>
   </head>
 
   <body>
-    <Header />
     <slot />
   </body>
 </html>

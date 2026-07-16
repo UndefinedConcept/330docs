@@ -1,29 +1,165 @@
 ---
-import { type MapNode } from '@utils/navigation';
+import { type MapNode, getDirectoryPath } from '@utils/navigation';
 
-const { directory, categories, state } = Astro.props as {
+const { title, directory, categories, state } = Astro.props as {
+  title: string;
   directory: string;
   categories: Record<string, MapNode[]>;
   state: boolean | undefined;
 };
 ---
 
-<div class="sidebar-panel">
-  <h3>{directory} {state === true ? '(current)' : state === false ? '(prev)' : '(hidden)'}</h3>
-  <ul>
-    {
-      Object.entries(categories).map(([category, nodes]) => (
-        <li>
-          <strong>{category}</strong>
-          <ul>
-            {nodes.map((node) => (
-              <li>
-                {node.href ? <a href={node.href}>{node.title}</a> : <label for={node.mapString}>{node.title}</label>}
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))
-    }
-  </ul>
+<div id={directory} class="panel" data-state={state === true ? '1' : state === false ? '2' : '0'}>
+  {
+    title !== directory && (
+      <div class="border-border border-b pb-1">
+        <button class="toggle-panel back-button" data-target={getDirectoryPath(directory)}>
+          Go Back
+        </button>
+        <h4 class="m-0 text-xl">{title}</h4>
+      </div>
+    )
+  }
+  {
+    Object.entries(categories).map(([category, nodes]) => (
+      <div>
+        <p class="text-text-muted mb-1 text-xs font-bold uppercase">{category}</p>
+        <ul>
+          {nodes.map((node) => (
+            <li class="nav-item">
+              {node.href ? (
+                <a href={node.href} class="grow text-inherit">
+                  {node.title}
+                </a>
+              ) : (
+                <button class="toggle-panel" data-target={node.mapString}>
+                  {node.title}
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
 </div>
+
+<style>
+  .nav-item {
+    display: flex;
+    border-left: 1px solid var(--color-border);
+    padding: 0.25rem 0.5rem 0.25rem calc(0.75rem - 1px);
+    color: var(--color-text-bright);
+
+    &:hover {
+      border-left: 3px solid var(--color-text-bright);
+      background-color: var(--color-background-alt);
+      padding-left: calc(0.75rem - 3px);
+    }
+
+    &:has([aria-current='page']) {
+      border-left: 3px solid var(--color-link);
+      padding-left: calc(0.75rem - 3px);
+      color: var(--color-link);
+    }
+
+    & .toggle-panel::after {
+      position: absolute;
+      right: 0;
+      padding-right: 0.5rem;
+      content: '▶';
+    }
+  }
+
+  .toggle-panel {
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+
+    &.back-button {
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      color: var(--color-link);
+      font-weight: bold;
+      text-transform: uppercase;
+
+      &::before {
+        padding-right: 0.5rem;
+        content: '◀';
+      }
+
+      &:hover {
+        background-color: var(--color-background-alt);
+      }
+    }
+  }
+
+  /* Base styles for all sliding panels */
+  .panel {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.5s;
+    inset: 0;
+    overflow-y: auto;
+  }
+
+  /* STATE 1: Active / Current Panel (Centered) */
+  .panel[data-state='1'] {
+    transform: translateX(0);
+  }
+
+  /* STATE 2: Past Panel (Shifted Left) */
+  .panel[data-state='2'] {
+    transform: translateX(-100%);
+  }
+
+  /* STATE 0: Hidden / Next Panel (Shifted Right) */
+  .panel[data-state='0'] {
+    transform: translateX(100%);
+  }
+
+  @keyframes disablePointerEvents {
+    0% {
+      pointer-events: auto;
+    }
+    99% {
+      pointer-events: none;
+    }
+    100% {
+      pointer-events: auto;
+    }
+  }
+</style>
+
+<script>
+  let isThrottled = false;
+  const toggleButtons = document.querySelectorAll<HTMLButtonElement>('button.toggle-panel');
+  toggleButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (isThrottled) return;
+
+      const currentPanel = button.closest('div.panel') as HTMLElement;
+      const targetPanelId = button.getAttribute('data-target');
+      if (!currentPanel || !targetPanelId) return;
+      const targetPanel = document.getElementById(targetPanelId) as HTMLElement;
+      if (!targetPanel) {
+        console.error(`Target panel with ID "${targetPanelId}" not found.`);
+        return;
+      }
+      isThrottled = true;
+
+      // Update states
+      const parentState = parseInt(currentPanel.dataset.state || '0');
+      const nextState = parseInt(targetPanel.dataset.state || '0');
+      const isNext = nextState < parentState;
+      currentPanel.dataset.state = isNext ? '2' : '0';
+      targetPanel.dataset.state = '1';
+
+      setTimeout(() => {
+        isThrottled = false;
+      }, 500);
+    });
+  });
+</script>
