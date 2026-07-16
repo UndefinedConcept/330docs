@@ -18,6 +18,7 @@ export default defineConfig({
   // Should match const.ts SITE_URL and SITE_BASE
   site: SITE_URL,
   base: SITE_BASE,
+  trailingSlash: 'never', // DELETE if pagefind adds support for removing trailingSlash from results
 
   integrations: [
     sitemap(),
@@ -79,5 +80,9 @@ export default defineConfig({
       },
     },
     plugins: [tailwindcss()],
+  },
+
+  build: {
+    format: 'file', // DELETE if pagefind adds support for removing trailingSlash from results
   },
 });
