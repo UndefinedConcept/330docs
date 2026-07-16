@@ -43,10 +43,13 @@ Global Color Palette ===== https://shadcn-svelte.com/themes ====
   --color-warning: var(--warning);
   --color-error: var(--error);
 
+  /* Set colors (unified colors with modules) */
+  --shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  --backdrop: rgba(0, 0, 0, 0.5);
+
   /* Layout styles */
-  --sidebar-width: 280px;
-  --content-max-width: 900px;
-  --transition: 0.15s ease;
+  --sidebar-width: 260px;
+  --content-max-width: 768px;
 }
 
 /***************************************************************
@@ -118,18 +121,18 @@ Global Base Layer ==============================================
   }
 
   blockquote {
-    @apply border-l-border pl-5 pr-0 py-0 border-l-4 border-solid;
+    @apply bg-border/20 border-l-border pl-5 pr-0 py-2 border-l-4 border-solid [&>*:last-child]:mb-0 mb-4;
 
     &[data-blockquote-type] {
       @apply relative;
 
       &::before {
-        @apply block font-bold ml-5 capitalize text-border;
+        @apply block ml-5 font-bold capitalize text-border;
         content: attr(data-blockquote-type);
       }
 
       &::after {
-        @apply block text-border w-4 h-4 absolute top-1.25 left-5 bg-border;
+        @apply absolute top-3.25 left-5 block w-4 h-4 bg-border border-text;
         -webkit-mask: var(--svg-icon-quote) no-repeat center;
         mask: var(--svg-icon-quote) no-repeat center;
         -webkit-mask-size: contain;

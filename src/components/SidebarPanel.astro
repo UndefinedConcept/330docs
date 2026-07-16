@@ -7,6 +7,8 @@ const { title, directory, categories, state } = Astro.props as {
   categories: Record<string, MapNode[]>;
   state: boolean | undefined;
 };
+
+// Replace all "300" (of 3) in this file to change the transition speed of the sliding panels
 ---
 
 <div id={directory} class="panel" data-state={state === true ? '1' : state === false ? '2' : '0'}>
@@ -66,12 +68,12 @@ const { title, directory, categories, state } = Astro.props as {
     & .toggle-panel::after {
       position: absolute;
       right: 0;
-      padding-right: 0.5rem;
       content: '▶';
     }
   }
 
   .toggle-panel {
+    position: relative;
     cursor: pointer;
     width: 100%;
     text-align: left;
@@ -100,8 +102,9 @@ const { title, directory, categories, state } = Astro.props as {
     position: absolute;
     flex-direction: column;
     gap: 1rem;
-    transition: transform 0.5s;
+    transition: transform 300ms;
     inset: 0;
+    padding: 1rem 1rem;
     overflow-y: auto;
   }
 
@@ -159,7 +162,7 @@ const { title, directory, categories, state } = Astro.props as {
 
       setTimeout(() => {
         isThrottled = false;
-      }, 500);
+      }, 300);
     });
   });
 </script>

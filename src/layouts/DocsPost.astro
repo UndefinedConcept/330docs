@@ -11,7 +11,7 @@ const { title, description, pubDate, heroImage } = Astro.props;
 
 <Layout title={title} description={description} heroImage={heroImage} pagefind={true}>
   <Sidebar />
-  <main class="p-6 md:ml-(--sidebar-width) md:px-8">
+  <main class="p-6 max-md:pt-18 md:ml-(--sidebar-width) md:px-8">
     <article class="prose" data-pagefind-body>
       <div class="title">
         <FormattedDate date={pubDate} />
