@@ -47,7 +47,7 @@ const state = (directory: string) => {
     </Search>
   </div>
 
-  <div class="sidebar-nav flex h-full items-center text-sm">
+  <div class="sidebar-nav flex h-full items-center">
     <button
       class="text-text hover:text-link-hover text-2xl md:hidden"
       popovertarget="sidebar-nav-panels"
@@ -77,11 +77,11 @@ const state = (directory: string) => {
 
 <script>
   // add active on pageload
-  const sidebarLinks = document.querySelectorAll('.sidebar-nav-panels a') as NodeListOf<HTMLAnchorElement>;
-
+  const sidebarLinks = document.querySelectorAll('#sidebar-nav-panels a') as NodeListOf<HTMLAnchorElement>;
+  const currentPath = window.location.href.replace(/\.[^/.]+$/, '');
   // Loop through the selected links
   sidebarLinks.forEach((link) => {
-    if (link.href === window.location.href) {
+    if (link.href === currentPath) {
       link.setAttribute('aria-current', 'page');
     }
   });
