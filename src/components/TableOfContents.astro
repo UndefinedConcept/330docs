@@ -1,0 +1,88 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
+---
+
+<nav class="toc bg-background-code fixed top-14 z-20 flex h-[calc(100vh-3.5rem)] flex-col overflow-scroll px-6 py-2">
+  <span class="w-full border-b font-bold">On this page</span>
+  <ul>
+    {
+      filteredHeadings.map((heading) => (
+        <li style={`margin-left: ${heading.depth - 1 * 1.5}rem;`}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  const links = document.querySelectorAll('.toc a');
+  const headings = document.querySelectorAll('article h2, article h3');
+  let scrollToHashMutex = false; // Flag to prevent observer interference
+
+  /* rootMargin: top | right | bottom | left */
+  const observerOptions = {
+    rootMargin: '0px 0px -36px 0px',
+    threshold: 1,
+    delay: 200,
+  };
+
+  const updateActiveLink = (targetId: string) => {
+    links.forEach((link) => {
+      if (link.getAttribute('href') === `#${targetId}`) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+    // Skip observer logic if the user clicked a hash link and the page is scrolling
+    if (scrollToHashMutex) return;
+
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        updateActiveLink(entry.target.id);
+      }
+    });
+  }, observerOptions);
+
+  headings.forEach((heading) => {
+    observer.observe(heading);
+  });
+
+  const handleHashSync = () => {
+    const currentHash = window.location.hash; // e.g., "#about"
+    if (!currentHash) return;
+
+    scrollToHashMutex = true;
+    updateActiveLink(currentHash.replace('#', ''));
+
+    // prettier-ignore
+    if ('onscrollend' in window) {
+      // If the browser supports the scrollend event, we can use it to reset the mutex
+      window.addEventListener( 'scrollend', () => { scrollToHashMutex = false; }, { once: true } );
+    } else {
+      // Fallback for browsers that don't support scrollend
+      setTimeout(() => { scrollToHashMutex = false; }, 1000);
+    }
+  };
+
+  window.addEventListener('hashchange', handleHashSync);
+  window.addEventListener('DOMContentLoaded', handleHashSync);
+</script>
+
+<style>
+  .toc a.active {
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import Layout from '@src/layouts/Layout.astro';
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '@components/FormattedDate.astro';
+import Sidebar from '@components/Sidebar.astro';
+import TableOfContents from '@components/TableOfContents.astro';
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  post: CollectionEntry<'docs'>['data'];
+  headings: MarkdownHeading[];
+}
+
+const { post, headings } = Astro.props;
+---
+
+<Layout title={post.title} description={post.description} heroImage={post.heroImage}>
+  <Sidebar />
+  <TableOfContents headings={headings} />
+  <main class="p-6 max-md:pt-18 md:ml-(--sidebar-width) md:px-8">
+    <article class="prose" data-pagefind-body>
+      <div class="title">
+        <FormattedDate date={post.pubDate} />
+        <h1>{post.title}</h1>
+      </div>
+      <slot />
+    </article>
+  </main>
+</Layout>
