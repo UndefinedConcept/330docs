@@ -72,13 +72,14 @@ Global Base Layer ==============================================
     text-rendering: optimizeLegibility;
   }
 
+  /* prettier-ignore */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    @apply font-bold mt-6 mb-4 text-text-bright;
+    @apply font-bold mt-6 mb-4 text-text-bright scroll-mt-16;
     line-height: 1.2;
   }
 
@@ -163,6 +164,18 @@ Utility (CSS class) ============================================
 ***************************************************************/
 
 @utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollable-text-x {
+  overflow-x: auto;
+  white-space: nowrap;
+  text-wrap: nowrap;
   -ms-overflow-style: none;
   scrollbar-width: none;
 

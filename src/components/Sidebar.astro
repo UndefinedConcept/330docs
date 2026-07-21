@@ -24,10 +24,10 @@ const state = (directory: string) => {
 ---
 
 <aside
-  class="border-border bg-background fixed z-20 flex w-full items-center justify-between gap-2 border-b px-6 py-4 md:h-full md:w-(--sidebar-width) md:flex-col md:border-r md:p-4"
+  class="bg-background fixed z-20 flex w-full items-center justify-between gap-2 px-6 py-4 max-md:border-b md:h-full md:w-(--sidebar-width) md:flex-col md:border-r md:p-4"
 >
   <div class="flex w-full items-center justify-between md:pt-2">
-    <a href={`${SITE_BASE}/`} class="text-foreground text-xl leading-none font-bold tracking-tight no-underline">
+    <a href={`${SITE_BASE}`} class="text-foreground text-xl leading-none font-bold tracking-tight no-underline">
       {SITE_TITLE}
     </a>
     <div class="flex gap-2 text-2xl">
@@ -36,7 +36,7 @@ const state = (directory: string) => {
     </div>
   </div>
 
-  <div class="sidebar-search md:w-full md:pt-4">
+  <div class="md:w-full md:pt-4">
     <Search>
       <button id="custom-pagefind-trigger" class="cursor-pointer text-2xl md:hidden" aria-label="search">
         <Icon name="mingcute:search-2-line" />
@@ -47,7 +47,7 @@ const state = (directory: string) => {
     </Search>
   </div>
 
-  <div class="sidebar-nav flex h-full items-center">
+  <div class="flex h-full items-center">
     <button
       class="text-text hover:text-link-hover text-2xl md:hidden"
       popovertarget="sidebar-nav-panels"

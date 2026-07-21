@@ -14,7 +14,7 @@ const { title, directory, categories, state } = Astro.props as {
 <div id={directory} class="panel" data-state={state === true ? '1' : state === false ? '2' : '0'}>
   {
     title !== directory && (
-      <div class="border-border border-b pb-1">
+      <div class="border-b pb-1">
         <button class="toggle-panel back-button" data-target={getDirectoryPath(directory)}>
           Go Back
         </button>
@@ -66,14 +66,12 @@ const { title, directory, categories, state } = Astro.props as {
     }
 
     & .toggle-panel::after {
-      position: absolute;
-      right: 0;
-      content: '▶';
+      float: right;
+      content: '⮞';
     }
   }
 
   .toggle-panel {
-    position: relative;
     cursor: pointer;
     width: 100%;
     text-align: left;
@@ -86,8 +84,7 @@ const { title, directory, categories, state } = Astro.props as {
       text-transform: uppercase;
 
       &::before {
-        padding-right: 0.5rem;
-        content: '◀';
+        content: '⮜ ';
       }
 
       &:hover {

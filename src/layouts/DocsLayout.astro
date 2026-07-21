@@ -17,7 +17,7 @@ const { post, headings } = Astro.props;
 <Layout title={post.title} description={post.description} heroImage={post.heroImage}>
   <Sidebar />
   <TableOfContents headings={headings} />
-  <main class="p-6 max-md:pt-18 md:ml-(--sidebar-width) md:px-8">
+  <main class="p-6 max-md:pt-18 md:ml-(--sidebar-width) md:px-8 xl:mr-(--sidebar-width)">
     <article class="prose" data-pagefind-body>
       <div class="title">
         <FormattedDate date={post.pubDate} />
