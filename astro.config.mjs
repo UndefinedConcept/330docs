@@ -7,11 +7,10 @@ import { defineConfig, fontProviders } from 'astro/config';
 import path from 'path';
 import { SITE_BASE, SITE_URL } from './src/consts.ts';
 
+import tailwindcss from '@tailwindcss/vite';
 import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
-
-import tailwindcss from '@tailwindcss/vite';
-import remarkCustomBlockquotes from './src/utils/remark-custom-blockquotes.ts';
+import remarkCustomBlockquotes from './src/utils/plugin-remark-custom-blockquotes.ts';
 
 // https://astro.build/config
 export default defineConfig({

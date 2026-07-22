@@ -25,7 +25,7 @@ const { title, directory, categories, state } = Astro.props as {
   {
     Object.entries(categories).map(([category, nodes]) => (
       <div>
-        <p class="text-text-muted mb-1 text-xs font-bold uppercase">{category}</p>
+        <p class="text-text mb-1 text-xs font-bold uppercase">{category}</p>
         <ul>
           {nodes.map((node) => (
             <li class="nav-item">
@@ -51,10 +51,10 @@ const { title, directory, categories, state } = Astro.props as {
     display: flex;
     border-left: 1px solid var(--color-border);
     padding: 0.25rem 0.5rem 0.25rem calc(0.75rem - 1px);
-    color: var(--color-text-bright);
+    color: var(--color-text-muted);
 
     &:hover {
-      border-left: 3px solid var(--color-text-bright);
+      border-left: 3px solid var(--color-border);
       background-color: var(--color-background-alt);
       padding-left: calc(0.75rem - 3px);
     }

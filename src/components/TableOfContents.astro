@@ -15,22 +15,25 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
       id="toc"
       class="bg-background fixed top-14 right-0 left-0 z-19 flex flex-col border-b pt-1 md:top-0 md:left-(--sidebar-width) xl:left-[calc(100vw-var(--sidebar-width))]"
     >
-      <summary class="pb-1 text-xs font-bold max-xl:px-6">
+      <summary class="flex list-none items-center pb-1 text-xs font-bold max-xl:px-6 [&::-webkit-details-marker]:hidden">
         <a href="#" class="relative">
           On this page
         </a>
-        <span id="current-heading" class="xl:scrollable-text-x" />
+        <span id="current-heading" class="xl:scrollable-text-x text-text" />
       </summary>
       <ul
         id="toc-list"
         class="border-background-alt max-h-[calc(85vh-6rem)] overflow-y-auto border-t text-sm shadow-lg xl:max-h-[calc(100vh-1.5rem)]"
       >
         {filteredHeadings.map((heading) => (
-          <li
-            class="hover:bg-background-alt border-background-alt flex border-t"
-            style={`padding-left: ${heading.depth - 2}rem;`}
-          >
-            <a href={`#${heading.slug}`}>{heading.text}</a>
+          <li class="hover:bg-background-alt border-background-alt flex border-t px-6">
+            <a
+              href={`#${heading.slug}`}
+              class="text-text-muted aria-current:text-link w-full py-1"
+              style={`padding-left: ${heading.depth - 2}rem;`}
+            >
+              {heading.text}
+            </a>
           </li>
         ))}
       </ul>
@@ -51,7 +54,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
     /* top | left and right | bottom */
     const observerOptions = {
       rootMargin: '0px 0px 0px',
-      threshold: 0,
+      threshold: 1,
       delay: 200,
     };
 
@@ -62,9 +65,9 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
             // Scroll the active link into view if the TOC is open
             link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
           }
-          link.classList.add('active');
+          link.setAttribute('aria-current', 'true');
         } else {
-          link.classList.remove('active');
+          link.removeAttribute('aria-current');
         }
       });
       currentHeading.textContent = targetText;
@@ -149,15 +152,6 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
 </style>
 
 <style>
-  summary {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    &::-webkit-details-marker {
-      display: none;
-    }
-  }
-
   summary a::after {
     display: inline-block;
     transform-origin: center;
@@ -171,13 +165,8 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
     rotate: 90deg;
   }
 
-  #toc-list a {
-    padding: 0.25rem 1.5rem 0.25rem;
-    width: 100%;
-
-    &.active::after {
-      float: right;
-      content: '✓';
-    }
+  #toc-list li:has(a[aria-current='true']) {
+    border-left: 3px solid var(--color-link);
+    padding-left: calc(1.5rem - 3px);
   }
 </style>
