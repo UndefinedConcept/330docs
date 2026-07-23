@@ -16,7 +16,7 @@ const { title, directory, categories, state } = Astro.props as {
     title !== directory && (
       <div class="border-b pb-1">
         <button
-          class="toggle-panel text-link before:svg-arrow hover:bg-background-alt relative rounded px-2 py-1 pl-6 font-bold uppercase before:top-1 before:left-1 before:rotate-180"
+          class="toggle-panel text-link before:svg-arrow hover:bg-background-alt relative rounded px-2 py-1 pl-5 font-bold uppercase before:top-1 before:left-0 before:rotate-180"
           data-target={getDirectoryPath(directory)}
         >
           Go Back
@@ -30,19 +30,21 @@ const { title, directory, categories, state } = Astro.props as {
       <div>
         <p class="text-text-muted dark:text-text mb-1 text-xs font-bold uppercase">{category}</p>
         <ul class="text-text dark:text-text-muted">
-          {nodes.map((node) => (
-            <li class="nav-item">
-              {node.href ? (
+          {nodes.map((node) =>
+            node.href ? (
+              <li class="nav-item">
                 <a href={node.href} class="grow text-inherit">
                   {node.title}
                 </a>
-              ) : (
-                <button class="toggle-panel after:svg-arrow relative after:right-0" data-target={node.mapString}>
+              </li>
+            ) : (
+              <li class="nav-item after:svg-arrow relative pr-5! after:right-0">
+                <button class="toggle-panel scrollable-text-x" data-target={node.mapString}>
                   {node.title}
                 </button>
-              )}
-            </li>
-          ))}
+              </li>
+            )
+          )}
         </ul>
       </div>
     ))

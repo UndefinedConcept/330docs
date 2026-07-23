@@ -16,10 +16,13 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
       class="bg-background fixed top-14 right-0 left-0 z-19 flex flex-col border-b pt-1 md:top-0 md:left-(--sidebar-width) xl:left-[calc(100vw-var(--sidebar-width))]"
     >
       <summary class="flex list-none items-center pb-1 text-xs font-bold max-xl:px-6 [&::-webkit-details-marker]:hidden">
-        <a href="#" class="after:svg-arrow relative h-4 after:h-4 after:w-4 after:transition-transform">
+        <a
+          href="#"
+          class="after:svg-arrow relative h-4 whitespace-nowrap after:h-4 after:w-4 after:transition-transform"
+        >
           On this page
         </a>
-        <span id="current-heading" class="xl:scrollable-text-x ml-4" />
+        <span id="current-heading" class="scrollable-text-x ml-4" />
       </summary>
       <ul
         id="toc-list"

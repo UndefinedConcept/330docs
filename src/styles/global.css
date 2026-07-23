@@ -194,14 +194,22 @@ Utility (CSS class) ============================================
 }
 
 @utility scrollable-text-x {
-  overflow-x: auto;
-  white-space: nowrap;
-  text-wrap: nowrap;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  &:not(*:hover) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-  &::-webkit-scrollbar {
-    display: none;
+  &:hover {
+    overflow-x: auto;
+    white-space: nowrap;
+    text-wrap: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
@@ -236,7 +244,7 @@ Utility (CSS class) ============================================
   position: absolute;
   width: 20px;
   height: 20px;
-  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='4' d='m19 12l12 12l-12 12'/%3E%3C/svg%3E");
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z'/%3E%3C/svg%3E");
   -webkit-mask-image: var(--svg);
   mask-image: var(--svg);
   -webkit-mask-size: 100% 100%;
