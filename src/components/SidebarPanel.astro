@@ -15,7 +15,10 @@ const { title, directory, categories, state } = Astro.props as {
   {
     title !== directory && (
       <div class="border-b pb-1">
-        <button class="toggle-panel back-button" data-target={getDirectoryPath(directory)}>
+        <button
+          class="toggle-panel text-link before:svg-arrow hover:bg-background-alt relative rounded px-2 py-1 pl-6 font-bold uppercase before:top-1 before:left-1 before:rotate-180"
+          data-target={getDirectoryPath(directory)}
+        >
           Go Back
         </button>
         <h4 class="m-0 text-xl">{title}</h4>
@@ -25,8 +28,8 @@ const { title, directory, categories, state } = Astro.props as {
   {
     Object.entries(categories).map(([category, nodes]) => (
       <div>
-        <p class="text-text mb-1 text-xs font-bold uppercase">{category}</p>
-        <ul>
+        <p class="text-text-muted dark:text-text mb-1 text-xs font-bold uppercase">{category}</p>
+        <ul class="text-text dark:text-text-muted">
           {nodes.map((node) => (
             <li class="nav-item">
               {node.href ? (
@@ -34,7 +37,7 @@ const { title, directory, categories, state } = Astro.props as {
                   {node.title}
                 </a>
               ) : (
-                <button class="toggle-panel" data-target={node.mapString}>
+                <button class="toggle-panel after:svg-arrow relative after:right-0" data-target={node.mapString}>
                   {node.title}
                 </button>
               )}
@@ -51,7 +54,6 @@ const { title, directory, categories, state } = Astro.props as {
     display: flex;
     border-left: 1px solid var(--color-border);
     padding: 0.25rem 0.5rem 0.25rem calc(0.75rem - 1px);
-    color: var(--color-text-muted);
 
     &:hover {
       border-left: 3px solid var(--color-border);
@@ -64,33 +66,13 @@ const { title, directory, categories, state } = Astro.props as {
       padding-left: calc(0.75rem - 3px);
       color: var(--color-link);
     }
-
-    & .toggle-panel::after {
-      float: right;
-      content: '⮞';
-    }
   }
 
+  /* toggle-panel can have other classes */
   .toggle-panel {
     cursor: pointer;
     width: 100%;
     text-align: left;
-
-    &.back-button {
-      border-radius: 0.25rem;
-      padding: 0.25rem 0.5rem;
-      color: var(--color-link);
-      font-weight: bold;
-      text-transform: uppercase;
-
-      &::before {
-        content: '⮜ ';
-      }
-
-      &:hover {
-        background-color: var(--color-background-alt);
-      }
-    }
   }
 
   /* Base styles for all sliding panels */
