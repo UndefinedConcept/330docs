@@ -19,25 +19,7 @@ export default defineConfig({
   base: SITE_BASE,
   trailingSlash: 'never', // DELETE if pagefind adds support for removing trailingSlash from results
 
-  integrations: [
-    sitemap(),
-    expressiveCode({
-      // If you change themes, make sure to delete the `./astro` to clear the cache
-      themes: ['light-plus', 'dark-plus'],
-      useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => (theme.type === 'dark' ? '.dark' : false),
-      defaultProps: {
-        // Enable word wrap by default
-        wrap: true,
-        // Disable wrapped line indentation for terminal languages
-        overridesByLang: {
-          'bash,ps,sh': { preserveIndent: false },
-        },
-      },
-    }),
-    mdx(),
-    icon(),
-  ],
+  integrations: [sitemap(), expressiveCode(), mdx(), icon()],
 
   markdown: {
     processor: unified({

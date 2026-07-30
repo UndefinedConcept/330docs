@@ -1,0 +1,108 @@
+---
+// NOT SAFE FOR ACTUAL GRADED QUIZZES (because the correct answer is in the HTML)
+import QuizOption from './QuizOption.astro';
+
+interface Props {
+  question: string;
+  options: string[]; // if length < 2, throw error
+  correctOption: number | number[]; // one for single choice, array for multiple choice (has button)
+  hideAnswers?: boolean; // true for if selected or button, false if none
+}
+
+const { question, options, correctOption, hideAnswers = false } = Astro.props;
+
+if (options.length < 2) {
+  throw new Error('Quiz must have at least 2 options or use QuizReview for no options');
+}
+
+const isMultipleChoice = Array.isArray(correctOption);
+if (isMultipleChoice) {
+  for (const index of correctOption) {
+    if (index < 0 || index >= options.length) {
+      throw new Error('Invalid correctOption index: out of bounds');
+    }
+  }
+} else {
+  if (correctOption < 0 || correctOption >= options.length) {
+    throw new Error('Invalid correctOption index: out of bounds');
+  }
+}
+---
+
+<quiz
+  class="bg-special/10 border-special mb-4 flex flex-col gap-2 border-l-4 px-5 py-2"
+  data-active={hideAnswers || isMultipleChoice ? 'false' : 'true'}
+>
+  <div class="border-special gap-1 border-b pb-1">
+    <strong class="text-special">[Quiz] </strong>
+    <Fragment set:html={question} />
+    <slot name="question" />
+  </div>
+  <ul class="flex flex-col gap-1 text-sm">
+    {
+      isMultipleChoice
+        ? // Multiple Choice Variant
+          options.map((option, index) => (
+            <QuizOption index={index} option={option} correct={correctOption.includes(index)} type="checkbox" />
+          ))
+        : // Single Choice Variant
+          options.map((option, index) => (
+            <QuizOption index={index} option={option} correct={index === correctOption} type="radio" />
+          ))
+    }
+  </ul>
+  {
+    // Show "Check Answers" button only for multiple choice quizzes when showAnswers is true
+    !hideAnswers && isMultipleChoice && (
+      <button
+        id="check-answers"
+        class="bg-special/10 hover:bg-special/20 text-special pointer-events-none self-start rounded-md px-3 py-1 text-sm font-semibold opacity-50 select-none"
+        onclick="this.parentElement.setAttribute('data-active', 'true'); this.remove();"
+      >
+        Check Answers
+      </button>
+    )
+  }
+  {
+    // Show explanation section only if there is content in the default slot
+    Astro.slots.has('default') && (
+      <div class="quiz-explanation hidden flex-col gap-1 text-sm [&>*:last-child]:mb-0">
+        <slot />
+      </div>
+    )
+  }
+</quiz>
+
+<style is:global>
+  quiz:has(input:checked) {
+    button#check-answers {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    &[data-active='true'] {
+      /* Show explanation when an option is selected */
+      .quiz-explanation {
+        display: flex;
+      }
+
+      /* Show selected option */
+      label:has(input:checked) {
+        --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10m0-11.414L9.172 7.757L7.757 9.172L10.586 12l-2.829 2.828l1.415 1.415L12 13.414l2.828 2.829l1.415-1.415L13.414 12l2.829-2.828l-1.415-1.415z'/%3E%3C/svg%3E");
+        --color-text: var(--color-error);
+
+        &[data-correct] {
+          --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m5.457-12.543L11 15.914l-4.207-4.207l1.414-1.414L11 13.086l5.043-5.043z'/%3E%3C/svg%3E");
+        }
+      }
+
+      /* Show correct option if not selected */
+      label[data-correct] {
+        --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M4 12a8 8 0 1 1 16 0a8 8 0 0 1-16 0m8-10C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2m5.457 7.457l-1.414-1.414L11 13.086l-2.793-2.793l-1.414 1.414L11 15.914z'/%3E%3C/svg%3E");
+        --color-text: var(--color-success) !important;
+        background-color: color-mix(in srgb, var(--color-text) 20%, transparent);
+        color: var(--color-success);
+      }
+    }
+  }
+</style>
