@@ -1,4 +1,5 @@
 import { defineEcConfig } from 'astro-expressive-code';
+import { OutputCommentPlugin } from './src/utils/plugin-ec-output-comment.js';
 
 export default defineEcConfig({
   // If you change themes, make sure to delete the `./astro` to clear the cache
@@ -19,4 +20,5 @@ export default defineEcConfig({
       'bash,ps,sh': { preserveIndent: false },
     },
   },
+  plugins: [OutputCommentPlugin()],
 });

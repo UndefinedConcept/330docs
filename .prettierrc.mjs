@@ -6,6 +6,9 @@ export default {
   tabWidth: 2,
   trailingComma: 'es5',
   useTabs: false,
+  proseWrap: 'never',
+  bracketSpacing: true,
+  arrowParens: 'always',
 
   plugins: [
     'prettier-plugin-astro',
