@@ -1,0 +1,52 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "import": ["@cspell/dict-rust/cspell-ext.json"],
+  "dictionaries": ["typescript", "javascript", "html", "css", "node", "mdx", "rust", "softwareTerms"],
+  "enabledFileTypes": {
+    "rust": true,
+    "markdown": true,
+    "mdx": true,
+    "ocaml": true
+  },
+  "words": [
+    "astro",
+    "astrojs",
+    "fira",
+    "mario",
+    "pagefind",
+    "tsconfigs",
+    "tseslint",
+    "yepes",
+    "ocaml",
+    "ocamlopt",
+    "ocamlc",
+    "opam",
+    "merlin",
+    "functor",
+    "ppx",
+    "caml",
+    "ocamllex",
+    "ocamlyacc",
+    "menhir",
+    "utop",
+    "mli",
+    "mly",
+    "mll"
+  ],
+  "ignorePaths": [
+    ".cspell.json",
+    ".git/",
+    ".gitattributes",
+    ".gitignore",
+    ".vscode/**",
+    "node_modules/**",
+    ".astro/**",
+    "dist/**",
+    ".output/**",
+    "public/**",
+    "pagefind/**",
+    "_build/**",
+    ".opam/**"
+  ]
+}

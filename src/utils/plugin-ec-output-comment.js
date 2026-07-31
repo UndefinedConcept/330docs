@@ -26,7 +26,7 @@ export const OutputCommentPlugin = () =>
 
         context.codeBlock.getLines().forEach((line) => {
           // Find all lines that start with exactly "# "
-          if (line.text.startsWith('# ')) {
+          if (line.text === '#' || line.text.startsWith('# ')) {
             // Add a hide comment annotation (to hide the "# " prefix without disable no comment copy)
             line.addAnnotation(
               new OutputCommentAnnotation({
