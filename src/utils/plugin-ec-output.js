@@ -10,10 +10,10 @@ export function CodeOutputPlugin() {
     .expressive-code .frame pre.output {
       display: flex;
       flex-direction: column;
-      margin-top: calc(-1 * var(--ec-codePadBlk) / 2);
+      border-top: none;
       border-top-right-radius: 0;
       border-top-left-radius: 0;
-      padding: calc(var(--ec-codePadBlk) / 2) 0;
+      padding: 0.5rem 0;
       font-size: 0.85rem;
 
       span {

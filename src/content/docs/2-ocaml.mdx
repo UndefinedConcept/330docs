@@ -1,0 +1,203 @@
+---
+title: '2. Functional OCaml'
+description: 'Lorem ipsum dolor sit amet'
+category: 'Lecture Notes'
+pubDate: 'Jul 08 2022'
+---
+
+OCaml is a dialect of the ML programming language family, originally developed at INRIA in France. The features of ML include:
+
+- First-class functions: Functions are treated as values. They can be passed as arguments to other functions and returned as results.
+- Immutability by default: Variables are typically assigned once, encouraging a functional style of programming.
+- Algebraic data types and pattern matching: These provide expressive and concise ways to define and manipulate structured data.
+- Type inference
+  - OCaml is statically typed, but there is no need to write type annotations explicitly.
+  - The language supports parametric polymorphism, similar to Generics in Java, templates in C++
+- Exceptions
+- Automatic garbage collection
+
+Many ideas from functional programming have since influenced modern programming languages, including first-class and anonymous functions, as well as automatic memory management through garbage collection.
+
+## 2.1 Books
+
+Below is a list of free online books available on OCaml.
+
+- Developing Applications with Objective Caml [https://caml.inria.fr/pub/docs/oreilly-book/ocaml-ora-book.pdf](https://caml.inria.fr/pub/docs/oreilly-book/ocaml-ora-book.pdf)
+- Introduction to the Objective Caml Programming Language [http://courses.cms.caltech.edu/cs134/cs134b/book.pdf](http://courses.cms.caltech.edu/cs134/cs134b/book.pdf)
+- Real World OCaml 2nd Edition [https://dev.realworldocaml.org/](https://dev.realworldocaml.org/)
+- OCaml from the Very Beginning [https://johnwhitington.net/ocamlfromtheverybeginning/mlbook.pdf](https://johnwhitington.net/ocamlfromtheverybeginning/mlbook.pdf)
+- Cornell cs3110 book [https://cs3110.github.io/textbook/cover.html](https://cs3110.github.io/textbook/cover.html) is another course which uses OCaml; it is more focused on programming and less on PL theory than this class is.
+- [ocaml.org](https://ocaml.org/) is the home of OCaml for finding downloads, documentation, etc. The tutorials are also very good and there is a page of books.
+- [OCaml exercises](https://ocaml.org/exercises)
+
+### 2.1.1 Similar Courses
+
+If you're interested, I've listed several similar courses from other universities. For example, Cornell offers a comparable course—CS 3110—and there are also similar offerings from the University of Washington, Princeton, Harvard, and UIUC. You can check out their websites; Cornell's, in particular, provides an online textbook along with videos and other helpful resources.
+
+You might find it helpful to watch their lectures, go through their examples, or even try out their projects or exams. They all use OCaml, and the course structure is quite similar.
+
+So, it's more than just a textbook—you have access to notes, slides, exams, and other useful materials.
+
+- [CS3110](https://www.cs.cornell.edu/courses/cs3110/2025sp/) (Cornell)
+- [CSE341](https://courses.cs.washington.edu/courses/cse341/) (Washington)
+- [601.426](https://pl.cs.jhu.edu/pl/) (Johns Hopkins)
+- [COS326](https://www.cs.princeton.edu/courses/archive/fall23/cos326/) (Princeton)
+- [CS152](https://groups.seas.harvard.edu/courses/cs152/) (Harvard)
+- [CS421](https://courses.engr.illinois.edu/cs421/) (UIUC)
+
+## 2.2 Installing OCaml
+
+```bash output
+ocaml --version
+=== OUTPUT ===
+The OCaml toplevel, version 5.4.1
+```
+
+## OPAM: OCaml Package Manager
+
+Opam is the package manager for OCaml. It manages libraries and different compiler installations. For the class projects, you should install the following packages with **opam**.
+
+- ounit, a testing framework similar to minitest
+- utop, a top-level interface
+- dune, a build system for larger projects
+
+```bash output
+dune --version
+=== OUTPUT ===
+3.23.1
+```
+
+## 2.4 Running OCaml Programs
+
+You can compile OCaml programs with either the bytecode compiler (**ocamlc**) or the native-code compiler (`ocamlopt`). The -o option specifies the output file name.
+
+```bash title="Create a file named main.ml" frame="terminal"
+ocamlc -o main main.ml
+```
+
+`ocamlc -c` compiles the source file without linking and produces **.cmo** (compiled object) and **.cmi** (compiled interface) files. `ocamlopt` produces **.cmx** files, which contain native code: faster, but not platform-independent (or as easily debugged)
+
+```bash
+ocamlopt -o main main.ml
+```
+
+`asd` You can also run an OCaml program directly using the OCaml interpreter (**ocaml**). This is similar to running a Python program.
+
+```bash
+ocaml main.ml
+```
+
+This will run the OCaml program **main.ml**.
+
+## 2.5 Building Projects with dune
+
+**ocamlc** is convenient for compiling a single OCaml file. However, for class projects you will use **dune**, the build system. Dune automatically discovers dependencies and invokes the compiler and linker for you. Let us create a new project using **dune**:
+
+```bash output
+dune init project HelloWorld
+=== OUTPUT ===
+Success: initialized project component named HelloWorld
+```
+
+```bash title="HelloWorld project" frame="terminal" output
+tree HelloWorld
+=== OUTPUT ===
+HelloWorld
+├── bin
+│   ├── dune
+│   └── main.ml
+├── dune-project
+├── HelloWorld.opam
+├── lib
+│   └── dune
+└── test
+    ├── dune
+    └── test_HelloWorld.ml
+
+4 directories, 7 files
+```
+
+```bash frame="none"
+# Build the project
+cd HelloWorld
+dune build
+
+# Run the project
+dune exec bin/main.exe # OR "_build/default/bin/main.exe"
+
+# AND/OR run the tests
+dune runtest
+```
+
+## 2.6 OCaml Basics
+
+OCaml files are written with a **.ml** extension. There is no special main function. An OCaml file consists of:
+
+- A series of open statements for including other modules
+- A series of declarations for defining datatypes, functions, and constants
+- A series of (though often just one) toplevel expressions to evaluate.
+
+```ocaml output
+(* A small OCaml program *)
+print_string "Hello world!\n";;
+=== OUTPUT ===
+Hello world!
+- : unit = ()
+```
+
+Or
+
+```ocaml output
+open Printf
+  let message = "Hello world";;
+  (printf "%s\n" message);;
+=== OUTPUT ===
+val message : string = "Hello world"
+Hello world
+- : unit = ()
+```
+
+The first line includes the built-in library for printing, which provides functions similar to `fprintf` and `printf` from `stdio.h` in **C**. The next two lines define a constant named message, and then call the `printf` function with a format string (where %s means "format as string"), and the constant message we defined on the line before.
+
+To compile and run shell
+
+```bash output
+ocamlc hello.ml -o hello
+./hello
+Hello world!
+```
+
+We can also compile multiple files to generate a single executable.
+
+```ocaml title="main.ml"
+(* main.ml *)
+let main () =
+  print_int (Util.add 10 20); print_string "\n"
+let () = main ()
+```
+
+```ocaml title="util.ml"
+(* util.ml *)
+let add x y = x + y
+```
+
+Compile and run:
+
+```bash
+ocamlc util.ml main.ml -o main
+```
+
+Or compile separately:
+
+```bash
+ocamlc -c util.ml
+ocamlc util.cmo main.ml
+```
+
+It generates an executable main. We can execute it by:
+
+```bash output
+shell ./main
+=== OUTPUT ===
+30
+```

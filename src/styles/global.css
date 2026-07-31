@@ -185,9 +185,20 @@ Global Base Layer ==============================================
 
     /* Extra styling for plugin-ec-output.js */
     pre.output {
-      @apply text-text-code! bg-background-code! border-t-(--ec-brdCol)! border-t-2!;
+      @apply text-text-code! bg-background-code!;
       span {
         @apply min-h-2!;
+      }
+    }
+
+    figure:has(pre.output) {
+      pre[data-language] {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+
+        code {
+          padding-bottom: 0.5rem !important;
+        }
       }
     }
   }
