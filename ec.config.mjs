@@ -1,5 +1,7 @@
+// @ts-check
 import { defineEcConfig } from 'astro-expressive-code';
-import { OutputCommentPlugin } from './src/utils/plugin-ec-output-comment.js';
+import { TerminalPromptPlugin } from './src/utils/plugin-ec-terminal-prompt.js';
+import { CodeOutputPlugin } from './src/utils/plugin-ec-output.js';
 
 export default defineEcConfig({
   // If you change themes, make sure to delete the `./astro` to clear the cache
@@ -17,8 +19,8 @@ export default defineEcConfig({
   defaultProps: {
     // Disable wrapped line indentation for terminal languages
     overridesByLang: {
-      'bash,ps,sh': { preserveIndent: false },
+      'bash,sh,shell,ps,powershell': { preserveIndent: false, frame: "none" },
     },
   },
-  plugins: [OutputCommentPlugin()],
+  plugins: [TerminalPromptPlugin(), CodeOutputPlugin()],
 });
