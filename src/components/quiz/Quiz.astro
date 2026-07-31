@@ -33,8 +33,8 @@ if (isMultipleChoice) {
   class="bg-special/10 border-special mb-4 flex flex-col gap-2 border-l-4 px-5 py-2"
   data-active={hideAnswers || isMultipleChoice ? 'false' : 'true'}
 >
-  <div class="border-special gap-1 border-b pb-1">
-    <strong class="text-special">[Quiz] </strong>
+  <div class="border-special gap-1 border-b pb-1 [&>*:last-child]:mb-0">
+    <strong class="text-special">[Quiz]</strong>
     <Fragment set:html={question} />
     <slot name="question" />
   </div>

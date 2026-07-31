@@ -13,7 +13,7 @@ const { question } = Astro.props;
 
 <details class="bg-special/10 border-special mb-4 flex flex-col border-l-4 px-5 py-2" data-active="true">
   <summary>
-    <strong class="text-special">[Quiz] </strong>
+    <strong class="text-special">[Quiz]</strong>
     <Fragment set:html={question} />
     <slot name="question" />
   </summary>

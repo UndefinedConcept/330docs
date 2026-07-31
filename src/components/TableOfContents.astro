@@ -13,11 +13,12 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
   filteredHeadings.length > 0 && (
     <details
       id="toc"
-      class="bg-background fixed top-14 right-0 left-0 z-19 flex flex-col border-b pt-1 md:top-0 md:left-(--sidebar-width) xl:left-[calc(100vw-var(--sidebar-width))]"
+      class="bg-background fixed top-14 right-0 left-0 z-19 flex flex-col border-b pt-1 select-none md:top-0 md:left-(--sidebar-width) xl:left-[calc(100vw-var(--sidebar-width))]"
     >
       <summary class="flex list-none items-center pb-1 text-xs font-bold max-xl:px-6 [&::-webkit-details-marker]:hidden">
         <a
           href="#"
+          aria-label="Go to the top of the page"
           class="after:svg-arrow relative h-4 whitespace-nowrap after:h-4 after:w-4 after:transition-transform"
         >
           On this page
@@ -31,6 +32,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
         {filteredHeadings.map((heading) => (
           <li class="hover:bg-background-alt border-background-alt flex border-t px-6">
             <a
+              aria-label={`Go to ${heading.slug}`}
               href={`#${heading.slug}`}
               class="text-text dark:text-text-muted aria-current:text-link w-full py-1"
               style={`padding-left: ${heading.depth - 2}rem;`}
@@ -54,11 +56,11 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
     const currentHeading = document.getElementById('current-heading') as HTMLSpanElement;
     let scrollToHashMutex = false; // Flag to prevent observer interference
 
-    /* top | left and right | bottom */
+    /* top | left  right | bottom */
     const observerOptions = {
       rootMargin: '0px 0px 0px',
-      threshold: 1,
-      delay: 200,
+      threshold: 0.1,
+      delay: 100,
     };
 
     const updateActiveLink = (targetId: string, targetText: string) => {
@@ -125,9 +127,11 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
       const tocGoToTop = document.querySelector('#toc summary a') as HTMLAnchorElement;
       if (window.innerWidth >= 1280) {
         // tailwind "xl:" breakpoint
+        details.setAttribute('open', 'true');
         tocGoToTop.textContent = '';
         window.removeEventListener('click', handleClickOutside);
       } else {
+        details.removeAttribute('open');
         tocGoToTop.textContent = 'On this page';
         window.addEventListener('click', handleClickOutside);
       }
