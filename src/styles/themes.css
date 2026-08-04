@@ -29,7 +29,7 @@
   --success: #20974c;
   --warning: #faad14;
   --error: #ff4d4f;
-  --special: #8534f3;
+  --special: #974dff;
 
   --text-code: hsl(0, 0%, 45%);
   --background-code: hsl(0, 0%, 90%);
@@ -50,6 +50,7 @@
   --success: #20974c;
   --warning: #faad14;
   --error: #ff4d4f;
+  --special: #974dff;
 
   --text-code: hsl(0, 0%, 65%);
   --background-code: hsl(0, 0%, 15%);

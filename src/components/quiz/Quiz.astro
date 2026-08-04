@@ -30,15 +30,17 @@ if (isMultipleChoice) {
 ---
 
 <quiz
-  class="bg-special/10 border-special mb-4 flex flex-col gap-2 border-l-4 px-5 py-2"
+  class="bg-special/15 border-special mb-4 flex flex-col gap-2 border-l-4 px-5 py-2"
   data-active={hideAnswers || isMultipleChoice ? 'false' : 'true'}
 >
-  <div class="border-special gap-1 border-b pb-1 [&>*:last-child]:mb-0">
-    <strong class="text-special">[Quiz]</strong>
-    <Fragment set:html={question} />
-    <slot name="question" />
+  <div class="border-special flex flex-col gap-1 select-none [&>*:last-child]:mb-0">
+    <span>
+      <strong class="text-special">Quiz: </strong>
+      {question}
+    </span>
+    <slot name="questionSlot" />
   </div>
-  <ul class="flex flex-col gap-1 text-sm">
+  <form class="mb-0! flex flex-col gap-1 text-sm select-none">
     {
       isMultipleChoice
         ? // Multiple Choice Variant
@@ -50,13 +52,13 @@ if (isMultipleChoice) {
             <QuizOption index={index} option={option} correct={index === correctOption} type="radio" />
           ))
     }
-  </ul>
+  </form>
   {
-    // Show "Check Answers" button only for multiple choice quizzes when showAnswers is true
+    // Show "Check Answers" button only for multiple choice when showAnswers is true
     !hideAnswers && isMultipleChoice && (
       <button
         id="check-answers"
-        class="bg-special/10 hover:bg-special/20 text-special pointer-events-none self-start rounded-md px-3 py-1 text-sm font-semibold opacity-50 select-none"
+        class="bg-special/20 hover:bg-special/10 text-special pointer-events-none self-start rounded-md px-3 py-1 text-sm font-semibold opacity-50 select-none"
         onclick="this.parentElement.setAttribute('data-active', 'true'); this.remove();"
       >
         Check Answers

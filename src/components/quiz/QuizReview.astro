@@ -11,11 +11,13 @@ if (!Astro.slots.has('default')) {
 const { question } = Astro.props;
 ---
 
-<details class="bg-special/10 border-special mb-4 flex flex-col border-l-4 px-5 py-2" data-active="true">
-  <summary>
-    <strong class="text-special">[Quiz]</strong>
-    <Fragment set:html={question} />
-    <slot name="question" />
+<details class="bg-special/15 border-special mb-4 flex flex-col border-l-4 px-5 py-2" data-active="true">
+  <summary class="select-none">
+    <span>
+      <strong class="text-special">Quiz: </strong>
+      {question}
+    </span>
+    <slot name="questionSlot" />
   </summary>
   <!-- apply mb-0 to last child -->
   <div class="border-special mt-1 flex-col gap-1 border-t pt-2 text-sm [&>*:last-child]:mb-0">
