@@ -10,6 +10,8 @@ import { SITE_BASE, SITE_URL } from './src/consts.ts';
 import tailwindcss from '@tailwindcss/vite';
 import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 import remarkCustomBlockquotes from './src/utils/plugin-remark-custom-blockquotes.ts';
 
 // https://astro.build/config
@@ -23,7 +25,8 @@ export default defineConfig({
 
   markdown: {
     processor: unified({
-      remarkPlugins: [remarkCustomBlockquotes],
+      remarkPlugins: [remarkCustomBlockquotes, remarkMath],
+      rehypePlugins: [[rehypeKatex, { output: 'mathml' }]],
     }),
   },
 

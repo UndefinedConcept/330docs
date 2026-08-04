@@ -26,6 +26,7 @@ export default defineEcConfig({
     },
   },
   defaultProps: {
+    wrap: false,
     // Disable wrapped line indentation for terminal languages
     overridesByLang: {
       'bash,sh,shell,ps,powershell': { preserveIndent: false, frame: 'none' },

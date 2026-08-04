@@ -17,6 +17,7 @@ export function CodeOutputPlugin() {
       font-size: 0.85rem;
 
       span {
+        width: fit-content;
         padding: 0 var(--ec-codePadInl);
       }
     }
