@@ -258,7 +258,7 @@ print_int 10;;
 
 The `unit = ()` is the return value of the `print_int` function. `()` is called **unit**. It is similar to `void` in other languages. It means the `print_int` function returns nothing. The following expressions do not type check
 
-```ocaml output
+```ocaml output del={1}
 print_int 10.5;;
 === OUTPUT ===
 Line 1, characters 10-14:
@@ -272,7 +272,7 @@ because print_int does not take float as an argument.
 
 The following code does not typecheck because + operator requires both operands to be integers. Adding a float to an integer results in a type error.
 
-```ocaml output
+```ocaml output del={1}
 1 + 0.5;;
 === OUTPUT ===
 Line 1, characters 4-7:
@@ -284,7 +284,7 @@ Error: The constant 0.5 has type float
 
 Adding a boolean to an integer results in a type error too.
 
-```ocaml output
+```ocaml output del={1}
 1 + true;;
 === OUTPUT ===
 Line 1, characters 4-8:
@@ -296,7 +296,7 @@ Error: The constructor true has type bool
 
 And as expected, print_int does not take a string as an argument.
 
-```ocaml output
+```ocaml output del={1}
 print_int "This function expected an int";;
 === OUTPUT ===
 Line 1, characters 10-41:
@@ -362,7 +362,7 @@ if 7 > 42 then "hello" else "goodbye";;
 
 The following expression does not type check because the two branches of the `if` expression do not return the same type. The `true` branch returns `string`, while the `false` branch returns `int`.
 
-```ocaml output
+```ocaml output del={1}
 if 7 > 42 then "hello" else 10;;
 === OUTPUT ===
 Line 1, characters 28-30:
@@ -604,7 +604,7 @@ val double : int -> int = <fun>
 
 Calling `double` with an argument of a different type results in a type-checking error.
 
-```ocaml output
+```ocaml output del={2}
 let double x = x * 2;;
 double 10.5;;
 === OUTPUT ===
@@ -720,7 +720,7 @@ val swap : 'a * 'b -> 'b * 'a = <fun>
 
 The function `eq x y` returns true if x and y are structurally equal, and false otherwise. It has type `'a -> 'a -> bool`, meaning that for any type `'a`, it takes two values of type `'a` and produces a boolean result.
 
-```ocaml output
+```ocaml output del={8}
 (* structural equality *)
 let eq x y = x = y;;
 eq 3 3;;           (* true *)
@@ -856,7 +856,7 @@ let y = 0::[1;2;3];;
 val y : int list = [0; 1; 2; 3]
 ```
 
-```ocaml output
+```ocaml output del={1}
 let x = [1;"world"] ;; (* all elements must have same type *)
 === OUTPUT ===
 Line 1, characters 11-18:
@@ -894,7 +894,7 @@ Error: This constant has type string
 
 The `::` operator prepends a single item, not a list, to the front of another list. The left argument of `::` is an element, the right is a list
 
-```ocaml output
+```ocaml output del={2}
 let y = 0::[1;2;3] ;;
 let w = [1;2]::y ;; (* error *)
 === OUTPUT ===
@@ -946,8 +946,8 @@ Lists are immutable in OCaml; you cannot change an element of a list. Instead, y
 
 ```ocaml output
 let x = [1;2;3;4];;
- let y = 5::x;;
- let z = 6::x;;
+let y = 5::x;;
+let z = 6::x;;
 === OUTPUT ===
 val x : int list = [1; 2; 3; 4]
 val y : int list = [5; 1; 2; 3; 4]
