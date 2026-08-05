@@ -11,7 +11,11 @@ if (!Astro.slots.has('default')) {
 const { question } = Astro.props;
 ---
 
-<details class="bg-special/15 border-special mb-4 flex flex-col border-l-4 px-5 py-2" data-active="true">
+<details
+  class="bg-special/15 border-special mb-4 flex flex-col border-l-4 px-5 py-2"
+  data-active="true"
+  data-pagefind-ignore
+>
   <summary class="select-none">
     <span>
       <strong class="text-special">Quiz: </strong>

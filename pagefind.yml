@@ -1,0 +1,3 @@
+exclude_selectors:
+  - 'div.expressive-code'
+  - 'span.katex'

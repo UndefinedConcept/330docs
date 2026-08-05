@@ -1,5 +1,6 @@
 /**
  * @fileoverview Generates a hierarchical tree structure from a flat list of documentation links for use in the sidebar navigation.
+ * @description This function takes a flat list of documentation links and organizes them into a hierarchical tree structure based on their directory paths and categories.
  * @usage import { type MapNode, contentMap: Record<string, Record<string, MapNode[]>>, getDirectoryPath } from '@utils/navigation';
  */
 import { SITE_BASE } from '@src/consts';

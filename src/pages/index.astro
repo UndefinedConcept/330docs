@@ -1,49 +1,47 @@
 ---
 import Layout from '@src/layouts/Layout.astro';
-import Header from '@components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '@src/consts';
+import Sidebar from '@components/Sidebar.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_BASE } from '@src/consts';
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <Header />
-  <main class="px-6">
-    <h1>🧑‍🚀 Hello, Astronaut!</h1>
-    <pagefind-searchbox id="search" placeholder="Search posts"></pagefind-searchbox>
-    <p>
-      Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template serves as a lightweight,
-      minimally-styled starting point for anyone looking to build a personal website, blog, or portfolio with Astro.
-    </p>
-    <p>
-      This template comes with a few integrations already configured in your
-      <code>astro.config.mjs</code> file. You can customize your setup with
-      <a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind, React, or Vue to your
-      project.
-    </p>
-    <p>Here are a few ideas on how to get started with the template:</p>
-    <ul>
-      <li>Edit this page in <code>src/pages/index.astro</code></li>
-      <li>
-        Edit the site header items in <code>src/components/Header.astro</code>
-      </li>
-      <li>
-        Add your name to the footer in <code>src/components/Footer.astro</code>
-      </li>
-      <li>
-        Check out the included blog posts in <code>src/content/blog/</code>
-      </li>
-      <li>
-        Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code>
-      </li>
-    </ul>
-    <p>
-      Have fun! If you get stuck, remember to
-      <a href="https://docs.astro.build/">read the docs</a>
-      or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-    </p>
-    <p>
-      Looking for a blog template with a bit more personality? Check out
-      <a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-      by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-    </p>
+  <Sidebar currentURL={SITE_BASE + '/'} />
+  <main class="p-6 max-md:pt-18 md:ml-(--sidebar-width) md:px-8 xl:mr-(--sidebar-width) xl:pr-4">
+    <article class="prose">
+      <h1>CMSC 330 Lecture Notes</h1>
+      <p>
+        These are the course notes for CMSC 330. If you find any errors, unclear explanations, missing material, or have
+        suggestions for improvement, please share anonymous feedback using this
+        <a href="https://forms.gle/gvfWWt63RqM6YKE57"> form </a>
+        or email <a href="anwar@umd.edu">anwar@umd.edu</a>.
+      </p>
+
+      <blockquote data-blockquote-type="TIP">
+        You can also use the shortcut <kbd> / </kbd> to open the search modal and quickly navigate to any lecture notes.
+      </blockquote>
+
+      <section>
+        <ol class="list-inside list-decimal">
+          <li><a href={SITE_BASE + '/1-intro'}>Introduction</a></li>
+          <li><a href={SITE_BASE + '/2-ocaml'}>Functional OCaml</a></li>
+        </ol>
+      </section>
+    </article>
   </main>
 </Layout>
+
+<style>
+  section ol li {
+    display: list-item; /* Forces the link to behave like an li and keep the marker */
+    flex-direction: row;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    list-style-position: outside; /* Keeps marker outside the main text block */
+
+    a {
+      display: block;
+      width: 100%;
+    }
+  }
+</style>

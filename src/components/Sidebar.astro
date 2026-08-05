@@ -9,10 +9,16 @@ import Github from '@components/Github.astro';
 import { contentMap, getDirectoryPath } from '@utils/navigation';
 import SidebarPanel from '@components/SidebarPanel.astro';
 
+interface Props {
+  currentURL: string;
+}
+
+//
+const { currentURL = Astro.url.pathname } = Astro.props as Props;
+
 // state is false if pathname starts with the directory
 // state is true if pathname is the directory
 // state is undefined otherwise
-const currentURL = Astro.url.pathname;
 const state = (directory: string) => {
   // console.log(directory); // Uncomment this line get directories
   const pathname = getDirectoryPath(currentURL);

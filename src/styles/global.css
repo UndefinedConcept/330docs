@@ -167,6 +167,10 @@ Global Base Layer ==============================================
   *  https://icon-sets.iconify.design/simple-icons/?keyword=r&category=Logos 
   */
   div.expressive-code {
+    div.copy button {
+      @apply w-8! h-8!;
+    }
+
     figure:has(pre[data-language='markdown']) div.copy:not(:hover) {
       --ec-frm-copyIcon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.308a1.73 1.73 0 0 1-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885l2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885l-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z'/%3E%3C/svg%3E");
     }
@@ -200,6 +204,18 @@ Global Base Layer ==============================================
           padding-bottom: 0.5rem !important;
         }
       }
+    }
+  }
+
+  span.katex math {
+    overflow-x: auto;
+    white-space: nowrap;
+    text-wrap: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 }
@@ -267,8 +283,10 @@ Utility (CSS class) ============================================
   }
 
   kbd {
-    @apply inline-flex align-text-top -my-0.5 py-0.5 px-1.5 border text-sm rounded-md;
+    @apply inline-flex align-text-top -my-0.5 py-0.5 px-1.5 text-sm rounded-md;
     box-shadow: 0px 2px 0px var(--color-border);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
   }
 }
 
