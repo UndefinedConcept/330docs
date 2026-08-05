@@ -58,7 +58,7 @@ ocaml --version
 The OCaml toplevel, version 5.4.1
 ```
 
-## OPAM: OCaml Package Manager
+## 2.3 OPAM: OCaml Package Manager
 
 Opam is the package manager for OCaml. It manages libraries and different compiler installations. For the class projects, you should install the following packages with **opam**.
 
@@ -233,7 +233,7 @@ To exit the top-level, type ^D (Control D) or call `exit 0;;`.
 
 There is an alternative toplevel called **utop**. It is more user friendly, and we will be using `utop` in the class. You can install **utop** by running `opam install utop`. Follow the instructions in the project 0 for installing opam and ocaml.
 
-## First OCaml Example
+## 2.8 First OCaml Example
 
 ```ocaml output
 (* A small OCaml program (* with nested comments *) *)
@@ -528,7 +528,7 @@ let greet () = print_string "What's up?";;
 val greet : unit -> unit = <fun>
 ```
 
-## Type Checking of Function Application
+## 2.14 Type Checking of Function Application
 
 As we have seen before, the syntax of a function application is
 
@@ -928,7 +928,7 @@ A nonempty list is a **pair (element, rest of list)**. The **element** is the he
 
 This recursive structure will come in handy shortly. `[1;2;3]` is represented as:
 
-![lists](../../assets/images/2-lists.png)
+![lists](../assets/images/2-lists.png)
 
 ### 2.15.3 Lists of Lists
 
@@ -956,4 +956,4 @@ val z : int list = [6; 1; 2; 3; 4]
 
 Since `x` refers to an immutable list, the tails of both `y` and `z` share the same list `x`.
 
-![linked-list-prepend](../../assets/images/2-linked-list-prepend.png)
+![linked-list-prepend](../assets/images/2-linked-list-prepend.png)

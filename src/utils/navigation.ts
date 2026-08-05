@@ -1,6 +1,6 @@
 /**
  * @fileoverview Generates a hierarchical tree structure from a flat list of documentation links for use in the sidebar navigation.
- * @usage import { type MapNode, docsMap: Record<string, Record<string, MapNode[]>>, getDirectoryPath } from '@utils/navigation';
+ * @usage import { type MapNode, contentMap: Record<string, Record<string, MapNode[]>>, getDirectoryPath } from '@utils/navigation';
  */
 import { SITE_BASE } from '@src/consts';
 import { getCollection } from 'astro:content';
@@ -25,11 +25,11 @@ export function getDirectoryPath(href: string): string {
   return href.substring(0, lastSlashIndex);
 }
 
-// Get all posts from the 'docs' collection, sort them by publication date, and map them to SidebarLink objects
-const posts: SidebarLink[] = (await getCollection('docs'))
+// Get all posts from the 'content' collection, sort them by publication date, and map them to SidebarLink objects
+const posts: SidebarLink[] = (await getCollection('content'))
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf())
   .map((post) => ({
-    href: `${SITE_BASE}/docs/${post.id}`,
+    href: `${SITE_BASE}/${post.id}`,
     title: post.data.title,
     category: post.data.category,
   }));
@@ -82,4 +82,4 @@ function buildMap(nodes: SidebarLink[]): NavMap[] {
 }
 
 // Export the tree structure for use in other parts of the application
-export const docsMap = buildMap(posts);
+export const contentMap = buildMap(posts);

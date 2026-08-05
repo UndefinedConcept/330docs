@@ -6,7 +6,7 @@ import Search from '@components/Search.astro';
 import ThemeToggle from '@components/ThemeToggle.astro';
 import Github from '@components/Github.astro';
 
-import { docsMap, getDirectoryPath } from '@utils/navigation';
+import { contentMap, getDirectoryPath } from '@utils/navigation';
 import SidebarPanel from '@components/SidebarPanel.astro';
 
 // state is false if pathname starts with the directory
@@ -62,7 +62,7 @@ const state = (directory: string) => {
       popover
     >
       {
-        docsMap.map((navMap) => (
+        contentMap.map((navMap) => (
           <SidebarPanel
             title={navMap.title}
             directory={navMap.href}
