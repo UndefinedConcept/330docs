@@ -95,12 +95,15 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
 
     const handleHashSync = () => {
       const currentHash = window.location.hash.replace('#', ''); // e.g., "#about"
+      const targetElement = document.getElementById(currentHash);
 
       scrollToHashMutex = true;
-      updateActiveLink(
-        currentHash,
-        currentHash ? document.querySelector(`article #${currentHash}`)?.textContent || '' : title || ''
-      );
+      if (targetElement) {
+        updateActiveLink(currentHash, targetElement.textContent || '');
+      } else {
+        // If the hash doesn't match any heading, reset to the title or empty
+        updateActiveLink('', title || '');
+      }
 
       // prettier-ignore
       if ('onscrollend' in window) {

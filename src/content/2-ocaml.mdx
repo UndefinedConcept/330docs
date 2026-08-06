@@ -86,7 +86,7 @@ ocamlc -o main main.ml
 ocamlopt -o main main.ml
 ```
 
-`asd` You can also run an OCaml program directly using the OCaml interpreter (**ocaml**). This is similar to running a Python program.
+You can also run an OCaml program directly using the OCaml interpreter (**ocaml**). This is similar to running a Python program.
 
 ```bash
 ocaml main.ml
@@ -351,7 +351,7 @@ This format is called inference rules. It is a formal way to express how you can
 
 In plain English, it reads: In context Γ (Γ, "Gamma", is the type environment. It is a map of variables and their types.), if `e1` has type `bool`, and `e2` has type `t`, and `e3` has (the same) type `t` then the expression if `e1 then e2 else e3` has type `t`.
 
-- Condition must be a `bool`: The expression `e1` (the condition) must have type `bool`. For example, writing `if 1 then ...` causes a type error, since `1` has type `int`, not `bool`.
+- Condition must be a `bool`: The expression `e1` (the condition) must have type `bool`. For example, writing `if 1 then …` causes a type error, since `1` has type `int`, not `bool`.
 - Then- and Else-branches must have the same type: Both `e2` and `e3` must evaluate to values of the same type.
 
 ```ocaml output
@@ -429,7 +429,7 @@ val fact : int -> int = <fun>
 
 `rec` keyword is used to define **recursive** functions. `;;` ends an expression in the top-level of OCaml. We use it to say: "Give me the value of this expression". It is not used in the body of a function and it is not needed in the real OCaml development.
 
-<QuizReview question="Quiz: Write a function sum that takes a positive integer n and returns the value of 1+2+3+...n.">
+<QuizReview question="Quiz: Write a function sum that takes a positive integer n and returns the value of 1+2+3+…n.">
 	```ocaml output
 	let rec sum n = 
 		if n = 1 then 1 else n + sum (n-1);; 
@@ -688,7 +688,7 @@ val factors : int -> int list = <fun>
 
 Mutually recursive functions are functions that call each other (directly or indirectly). You define them using the `and` keyword along with `let rec`.
 
-Suppose we want two functions, `even` and `odd`, to determine whether a number is even or odd, with `even` calling `odd` and `odd` calling `even`. We define them together using `let rec` ... `and`
+Suppose we want two functions, `even` and `odd`, to determine whether a number is even or odd, with `even` calling `odd` and `odd` calling `even`. We define them together using `let rec … and …`
 
 ```ocaml output
 let rec odd n =
@@ -809,7 +809,7 @@ The list is a fundamental data structure in OCaml. Lists can have arbitrary leng
 - : string list = ["apple"; "banana"; "cherry"]
 ```
 
-To evaluate `[e1; e2;...;en]`, we evaluate `e1` to a value v1, `e2` to a value `v2`, and `en` to a value `vn`, and return `[v1;…;vn]`.
+To evaluate `[e1; e2;…;en]`, we evaluate `e1` to a value v1, `e2` to a value `v2`, and `en` to a value `vn`, and return `[v1;…;vn]`.
 
 In OCaml, the list notation `[e1; e2]` is syntactic sugar for using the cons operator `::` (pronounced "cons"). `::` constructs a list by prepending an element to an existing list. Specifically:
 
@@ -957,3 +957,16 @@ val z : int list = [6; 1; 2; 3; 4]
 Since `x` refers to an immutable list, the tails of both `y` and `z` share the same list `x`.
 
 ![linked-list-prepend](../assets/images/2-linked-list-prepend.png)
+
+## 2.16 Pattern Matching
+
+Pattern matching in OCaml is a powerful way to destructure values, test their shape, and bind variables to parts of the value — all in a single, concise construct. It is used extensively with algebraic data types (like option, list, trees, and custom types).
+
+The syntax of the match expression is:
+
+```ocaml
+match e with
+| p1 -> e1
+| …
+| pn -> en
+```
